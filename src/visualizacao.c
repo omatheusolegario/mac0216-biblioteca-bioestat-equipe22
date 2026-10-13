@@ -69,14 +69,52 @@ void dispersao(double* X, double* Y, int tamanho, char* ptr_canvas, int linhas, 
     desenhaEixos(ptr_canvas, linhas, colunas);
 
     for (int i=0; i< tamanho; i++){
-        int coluna = 1 + normaliza(X[i], min_x, max_x, colunas-1);
-        int linha_bruta = normaliza(Y[i], min_y, max_y, linhas-1);
-        int linha = (linhas-1) - linha_bruta;
+        int coluna = 1 + normaliza(X[i], min_x, max_x, colunas-2);
+        int linha_bruta = normaliza(Y[i], min_y, max_y, linhas-2);
+        int linha = (linhas-2) - linha_bruta;
         canvas[linha][coluna]= '*';
     }
 }
 
-void histograma(double* dados, int tamanho, int num_bins){
+void histograma(double* dados, int tamanho, int num_bins, char* ptr_canvas, int linhas, int colunas){
+    char (*canvas)[colunas] = (char (*)[colunas])ptr_canvas;
+    double vmax = achaMax(dados, tamanho);
+    double vmin = achaMin(dados, tamanho);
+    double largura_bins = (vmax-vmin)/num_bins;
+    if (largura_bins == 0){
+        largura_bins = 1.0;
+    }
+
+    double *frequencia_absoluta;
+    frequencia_absoluta= calloc(num_bins, sizeof *frequencia_absoluta);
+    if (frequencia_absoluta == NULL){
+        return;
+    }
+
+    for (int i =0; i< tamanho; i++){
+        int index= (int) ((dados[i]-vmin)/largura_bins);
+        if (index >= num_bins){index=num_bins-1;}
+        frequencia_absoluta[index]++;
+    }
+
+    double densidade_frequencia[num_bins];
+
+    for( int i = 0; i< num_bins; i++){
+        densidade_frequencia[i]=(frequencia_absoluta[i]/tamanho)/largura_bins;
+    }
+
+    double densidade_max = achaMax(densidade_frequencia, num_bins);
+
+    for (int i =0; i< num_bins; i++){
+        int y = normaliza(densidade_frequencia[i], 0, densidade_max, linhas-2);
+        int x = 1 + normaliza(i, 0, num_bins-1, colunas-2);
+        for (int j =0; j<y; j++){
+            int altura_atual = (linhas-2) - j;
+            canvas[altura_atual][x]= '#';
+        }
+    }
+
+    free(frequencia_absoluta);
 }
 
 int main(int argc, char const *argv[])
