@@ -219,6 +219,38 @@ void boxplot_ascii(double *dados, int tamanho, double q1, double med, double q3,
     }
 }
 
+void dispersao_svg(char* nome_arquivo, double *X, double *Y, int tamanho){
+    FILE *f = fopen(nome_arquivo, "w");
+    if (f == NULL) return;
+
+    double min_x = achaMin(X, tamanho);
+    double max_x = achaMax(X, tamanho);
+    double min_y = achaMin(Y, tamanho);
+    double max_y = achaMax(Y, tamanho);
+
+    double largura = 800.0;
+    double altura = 600.0;
+    double margem = 60.0;
+    double largura_util = largura -(2* margem);
+    double altura_util = altura - (2* margem);
+
+    fprintf(f, "<!DOCTYPE html>\n<html>\n<body>\n");
+    fprintf(f, "<svg width=\"%.0f\" height=\"%.0f\" style=\"background:#ffffff; border: 1px solid #ccc;\">\n", largura, altura);
+    
+    fprintf(f, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"black\" stroke-width=\"2\"/>\n", margem, margem, margem, altura-margem);
+    fprintf(f, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"black\" stroke-width=\"2\"/>\n", margem, altura-margem, largura-margem, altura-margem);
+
+    for (int i = 0; i < tamanho; i++)
+    {
+        double x = margem + normaliza(X[i], min_x, max_x, largura_util);
+        double y = (altura_util)-normaliza(Y[i], min_y, max_y, altura_util);
+        fprintf(f, "<circle cx=\"%.2f\" cy=\"%.2f\" r=\"4\" fill=\"#e74c3c\" />\n", x, y);
+    }
+
+    fprintf(f, "</svg> \n</body>\n</html>\n");
+    fclose(f);
+}
+
 int main(int argc, char const *argv[])
 {
 
