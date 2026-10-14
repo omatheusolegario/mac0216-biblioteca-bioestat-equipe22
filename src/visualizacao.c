@@ -31,15 +31,15 @@ static void desenhaEixos(Canvas canvas_ascii)
 
    char (*canvas)[canvas_ascii.colunas] = (char (*)[canvas_ascii.colunas])canvas_ascii.ptr_canvas;
 
-    for (int i = 0; i < canvas_ascii.linhas; i++)
+    for (int i = 0; i < canvas_ascii.linhas-canvas_ascii.offset; i++)
     {
-        canvas[i][0] = '|';
+        canvas[i][canvas_ascii.offset] = '|';
     }
-    for (int j = 0; j < canvas_ascii.colunas; j++)
+    for (int j = canvas_ascii.offset; j < canvas_ascii.colunas; j++)
     {
         canvas[canvas_ascii.linhas - canvas_ascii.offset][j] = '-';
     }
-    canvas[canvas_ascii.linhas - canvas_ascii.offset][0] = '+';
+    canvas[canvas_ascii.linhas - canvas_ascii.offset][canvas_ascii.offset] = '+';
 }
 
 static void imprimeCanvas(Canvas canvas_ascii)
@@ -237,6 +237,14 @@ void boxplot_ascii(const double *dados, const int tamanho, const double q1, cons
     }
 
     imprimeCanvas(canvas_ascii);
+    printf("x_min: %.2f\nq1: %.2f\nmed: %.2f\nq3: %.2f\nx_max: %.2f\noutliers: ", min, q1, med, q3, max);
+    for (int i = 0; i < tamanho; i++)
+    {
+        if (dados[i] < li || dados[i] > ls)
+        {
+            printf("%.2f,", dados[i]);
+        }
+    }
 }
 
 void dispersao_svg(const char *nome_arquivo, const double *X, const double *Y, const int tamanho)
@@ -333,8 +341,9 @@ void histograma_svg(const char *nome_arquivo, const double *dados, const int tam
         double x = margem + (i * width);
 
         fprintf(f, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.0f\" height=\"%.2f\"fill=\"#006080\" stroke=\"black\" stroke-width=\"1\"/>\n", x, y, width, h);
-    }
-
+                fprintf(f, "<text x=\"%.2f\" y=\"%.2f\" font-family=\"sans-serif\" font-size=\"12\" fill=\"black\" text-anchor=\"middle\">%.2f</text>\n", margem/2, y, densidade_frequencia[i]);
+          }
+  fprintf(f, "<text x=\"%.2f\" y=\"%.2f\" font-family=\"sans-serif\" font-size=\"12\" fill=\"black\" text-anchor=\"middle\">%s</text>\n", margem+(width/2), altura-(margem/2), "Eixo Y: densidade de frequência\nEixo X: Intervalos");
     free(frequencia_absoluta);
     fprintf(f, "</svg> \n</body>\n</html>\n");
     fclose(f);
@@ -392,17 +401,24 @@ void boxplot_svg(const char *nome_arquivo, const double *dados, const int tamanh
 
     double y = altura_util / 2; // centro das linhas
 
-    fprintf(f, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.0f\" height=\"%.2d\"fill=\"#006080\" stroke=\"black\" stroke-width=\"1\"/>\n", x_q1, y - 10, (x_q3 - x_q1), 20);
-
+    fprintf(f, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.0f\" height=\"%.2d\"fill=\"#006080\" stroke=\"black\" stroke-width=\"1\"/>\n", x_q1, y - 20, (x_q3 - x_q1), 40);
     fprintf(f, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"black\" stroke-width=\"2\"/>\n", x_min, y, x_q1, y);
 
     fprintf(f, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"black\" stroke-width=\"2\"/>\n", x_q3, y, x_max, y);
 
-    fprintf(f, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"black\" stroke-width=\"2\"/>\n", x_min, y + 10, x_min, y - 10);
+    fprintf(f, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"black\" stroke-width=\"2\"/>\n", x_min, y + 20, x_min, y - 20);
 
-    fprintf(f, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"black\" stroke-width=\"2\"/>\n", x_max, y + 10, x_max, y - 10);
+    fprintf(f, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"black\" stroke-width=\"2\"/>\n", x_max, y + 20, x_max, y - 20);
 
-    fprintf(f, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"black\" stroke-width=\"2\"/>\n", x_med, y + 10, x_med, y - 10);
+    fprintf(f, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"black\" stroke-width=\"2\"/>\n", x_med, y + 20, x_med, y - 20);
+
+
+    fprintf(f, "<text x=\"%.2f\" y=\"%.2f\" font-family=\"sans-serif\" font-size=\"12\" fill=\"black\" text-anchor=\"middle\">%.2f</text>\n", x_min, altura-(margem/2), min);
+    fprintf(f, "<text x=\"%.2f\" y=\"%.2f\" font-family=\"sans-serif\" font-size=\"12\" fill=\"black\" text-anchor=\"middle\">%.2f</text>\n", x_max, altura-(margem/2), max);
+    fprintf(f, "<text x=\"%.2f\" y=\"%.2f\" font-family=\"sans-serif\" font-size=\"12\" fill=\"black\" text-anchor=\"middle\">%.2f</text>\n", x_q1, altura-(margem/2), q1);
+    fprintf(f, "<text x=\"%.2f\" y=\"%.2f\" font-family=\"sans-serif\" font-size=\"12\" fill=\"black\" text-anchor=\"middle\">%.2f</text>\n", x_med, altura-(margem/2), med);
+    fprintf(f, "<text x=\"%.2f\" y=\"%.2f\" font-family=\"sans-serif\" font-size=\"12\" fill=\"black\" text-anchor=\"middle\">%.2f</text>\n", x_q3, altura-(margem/2), q3);
+
 
     for (int i = 0; i < tamanho; i++)
     {
@@ -410,6 +426,7 @@ void boxplot_svg(const char *nome_arquivo, const double *dados, const int tamanh
         {
             double x_normalizado = margem + normaliza(dados[i], vmin, vmax, largura_util);
             fprintf(f, "<circle cx=\"%.2f\" cy=\"%.2f\" r=\"4\" fill=\"transparent\" stroke=\"black\" stroke-width=\"2\"/>\n", x_normalizado, y);
+            fprintf(f, "<text x=\"%.2f\" y=\"%.2f\" font-family=\"sans-serif\" font-size=\"12\" fill=\"black\" text-anchor=\"middle\">%.2f</text>\n", x_normalizado, altura-(margem/2), dados[i]);
         }
     }
 
@@ -430,12 +447,13 @@ int main(int argc, char const *argv[])
     canvas.ptr_canvas= &matriz_canvas[0][0];
     canvas.linhas= LINHAS;
     canvas.colunas= COLUNAS;
+    canvas.offset= 2;
 
     // dispersao_svg(nome_arquivo, X, Y, tamanho);
-    // histograma_svg(nome_arquivo, Z, 10, 2);
+    histograma_svg(nome_arquivo, Z, 10, 2);
     // histograma_ascii(Z, 10, 2, canvas);
     // dispersao_ascii(X,Y,tamanho,canvas);
     boxplot_ascii(A, 11, 5.5, 9.0, 11.5, canvas);
-    boxplot_svg(nome_arquivo, A, 11, 5.5, 9.0, 11.5);
+    //boxplot_svg(nome_arquivo, A, 11, 5.5, 9.0, 11.5);
     return 0;
 }
