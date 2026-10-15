@@ -3,9 +3,6 @@
 #include <math.h>
 #include "../include/visualizacao.h"
 
-#define LINHAS 15
-#define COLUNAS 50
-
 // Função auxiliar que limpa completamente a matriz 2d onde o desenho acontece
 static void esvaziaCanvas(Canvas canvas_ascii)
 {
