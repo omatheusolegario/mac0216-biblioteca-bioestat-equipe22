@@ -20,6 +20,7 @@ typedef enum {
     BE_ERRO_PONTEIRO_NULO,     /**< Algum ponteiro obrigatório veio NULL. */
     BE_ERRO_VALOR_INVALIDO,    /**< Entrada fora do domínio (ex.: contagem negativa). */
     BE_ERRO_DIVISAO_POR_ZERO,  /**< O cálculo exigiria dividir por zero. */
+    BE_ERRO_MEMORIA,           /**< Erro de memória. */
     BE_ERRO_NAO_IMPLEMENTADO   /**< Função ainda não implementada (uso durante o desenvolvimento). */
 } be_status;
 
