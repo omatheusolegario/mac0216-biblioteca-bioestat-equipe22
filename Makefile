@@ -7,6 +7,9 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -Iinclude
 
+# -MMD -MP: o gcc escreve, ao lado de cada .o, um arquivo .d com a lista de headers que o .c inclui
+DEPFLAGS = -MMD -MP
+
 # Adaptação para conseguir testar no meu macOS... linux continua funcionando
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
@@ -33,11 +36,11 @@ all: bin/app_estatica bin/app_dinamica
 # O -fPIC gera código que não assume endereços fixos
 build/%.o: src/%.c
 	mkdir -p build
-	$(CC) $(CFLAGS) -fPIC -c $< -o $@
+	$(CC) $(CFLAGS) $(DEPFLAGS) -fPIC -c $< -o $@
 
 build/main.o: app/main.c
 	mkdir -p build
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 	
 
 # Biblioteca estatica aqui: é um "pacote" com todos os .o da lib (sem o main.o)
@@ -65,3 +68,6 @@ bin/app_dinamica: build/main.o $(SHARED_LIB)
 
 clean:
 	rm -rf build bin lib
+
+# Carrega as dependencias geradas pelo gcc (o '-' ignora se ainda nao existirem)
+-include $(LIB_OBJS:.o=.d) build/main.d
