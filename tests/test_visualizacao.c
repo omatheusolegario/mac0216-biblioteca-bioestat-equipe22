@@ -7,6 +7,7 @@
 #define LINHAS_TESTE 15
 #define COLUNAS_TESTE 50
 
+// Função auxiliar para criar o struct e atribuir os valores rapidamente
 static Canvas cria_canvas_teste(char matriz[LINHAS_TESTE][COLUNAS_TESTE])
 {
     Canvas c;
@@ -17,6 +18,7 @@ static Canvas cria_canvas_teste(char matriz[LINHAS_TESTE][COLUNAS_TESTE])
     return c;
 }
 
+// Testa apenas jogando os casos limites nas funções de visualização
 void teste_nulos_e_limites()
 {
     char matriz[LINHAS_TESTE][COLUNAS_TESTE];
@@ -32,6 +34,7 @@ void teste_nulos_e_limites()
     printf("[OK] Teste de nulos e limites passado com sucesso!\n");
 }
 
+// Vê se o dispersão ascii está colocando os pontos corretamente, contado-os após gerados
 void teste_dispersao_ascii()
 {
     char matriz[LINHAS_TESTE][COLUNAS_TESTE];
@@ -51,6 +54,7 @@ void teste_dispersao_ascii()
     printf("[OK] Teste do dispersão ascii passado com sucesso!\n");
 }
 
+// Vê se o histograma está gerando os caracteres geradores das barras corretamente, contando-os
 void teste_histograma_ascii()
 {
     char matriz[LINHAS_TESTE][COLUNAS_TESTE];
@@ -69,6 +73,8 @@ void teste_histograma_ascii()
     printf("[OK] Teste do histograma ascii passado com sucesso!\n");
 }
 
+// Vê se o boxplot está sendo desenhado corretamente conferindo de as bordas da caixa foram desenhadas e se o outlier do
+// conjunto de dados também
 void teste_boxplot_ascii()
 {
     char matriz[LINHAS_TESTE][COLUNAS_TESTE];
@@ -92,12 +98,14 @@ void teste_boxplot_ascii()
     printf("[OK] Teste do boxplot ascii passado com sucesso!\n");
 }
 
+// Testa a criação dos arquivos html/svg, vendo se existem e possuem conteúdo
 void teste_arquivos_svg(){
     double X[]={1,2,3};
     double Y[]={3,2,1};
     Quartis q = {1.5,2,2.5};
     const char *arquivo = "teste_temporario.html";
 
+    // Testa o arquivo gerado para o gráfico de dispersão, se ele não é nulo e se ele não está vazio
     be_dispersao_svg(arquivo, X, Y, 3);
     FILE *f = fopen(arquivo, "r");
     assert(f != NULL);
@@ -106,6 +114,7 @@ void teste_arquivos_svg(){
     fclose(f);
     remove(arquivo);
 
+    // Testa o arquivo gerado para o histrograma, se ele não é nulo e se ele não está vazio
     be_histograma_svg(arquivo, X, 3, 2);
     f = fopen(arquivo, "r");
     assert(f != NULL);
@@ -114,6 +123,7 @@ void teste_arquivos_svg(){
     fclose(f);
     remove(arquivo);
 
+    // Testa o arquivo gerado para o boxplot, se ele não é nulo e se ele não está vazio
     be_boxplot_svg(arquivo, X, 3, q);
     f = fopen(arquivo, "r");
     assert(f != NULL);
