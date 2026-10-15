@@ -12,5 +12,6 @@ be_status be_preencher_tabela(long a, long b, long c, long d, be_tabela2x2 *said
     saida->b = b;
     saida->c = c;
     saida->d = d;
+    
     return BE_OK;
 }
