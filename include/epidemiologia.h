@@ -119,6 +119,13 @@ be_status be_odds_ratio(const be_tabela2x2 *t, double *saida);
  * 
  * Leitura: DR = 0,10 -> a exposição está associada a 10 casos a mais a cada 100 pessoas. 
  * O RR diz o quanto proporcionalmente, o DR diz o quanto em casos reais.
+ * 
+ * @param t é a tabela 2x2 (dupla entrada) no formato a,b,c,d (não aceita valores negativos)
+ * @param saida é um ponteiro para um double, em que ficará gravado o valor
+ * 
+ * @return BE_OK em caso de sucesso
+ *         BE_ERRO_PONTEIRO_NULO se a saida ou t for NULL
+ *         BE_ERRO_VALOR_INVALIDO se a tabela conter valores negativos
  */
 be_status be_diferenca_riscos(const be_tabela2x2 *t, double *saida);
 
