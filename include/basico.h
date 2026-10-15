@@ -4,7 +4,6 @@
  * Módulo de estatística básica.
  *
  * dados aponta para n valores double. Esse vetor nunca é alterado.
- * Se v == NULL, n == 0 ou não existir resultado, a função devolve NAN.
  */
 
 /* Média aritmética */
@@ -12,9 +11,7 @@ double media(const double *dados, size_t n);
 
 
 /* Mediana
- * Deve-se ordenar os dados
- * Valor central quando n é ímpar
- * Média dos dois centrais quando n é par
+ * = Segundo quartil
  */
 double mediana(const double *dados, size_t n);
 
@@ -50,9 +47,7 @@ double *moda(const double *dados, size_t n, size_t *qtd);
  /* Primeiro quartil */
 double quartil_1(const double *dados, size_t n);
 
- /* Segundo quartil
-  * = Mediana
-  */
+ /* Segundo quartil */
 double quartil_2(const double *dados, size_t n);
 
  /* Terceiro quartil */

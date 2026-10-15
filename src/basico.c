@@ -62,7 +62,7 @@ double media(const double *dados, size_t n){
     double soma = 0.0;
     for (size_t i = 0; i < n; i++)
         soma += dados[i];
-    return soma / (double)n; // Retorna um double.
+    return soma / (double)n;
 }
 
 // Mediana = segundo quartil (p = 0.5 na função quantil).
@@ -83,7 +83,14 @@ double quartil_3(const double *dados, size_t n){
 }
 
 double variancia(const double *dados, size_t n){
-
+    if (dados == NULL || n == 0)
+        return NAN;
+    double m = media(dados, n); // Média é necessária
+    double soma = 0.0;
+    // (Xi - Média)^2
+    for (size_t i = 0, i < n; i++)
+        soma += (dados[i] - m) * (dados[i] - m);
+    return soma / (double)n;
 }
 
 double desvio_padrao(const double *dados, size_t n){
@@ -91,5 +98,46 @@ double desvio_padrao(const double *dados, size_t n){
 }
 
 double *moda(const double *dados, size_t n, size_t *qtd){
+    if (qtd == NULL)
+        return NULL;
+    *qtd = 0;
+    if (dados == NULL || n == 0)
+        return NULL;
 
+    double *c = dados_ordenados(dados, n);
+    if (c == NULL)
+        return NULL;
+
+    // Descobre maior_freq e qtde
+    size_t maior_freq = 0; // Maior frequência
+    size_t qtde = 0;       // Quantos valores distintos atingem a maior frequência
+    size_t i = 0;
+    while (i < n){
+        size_t t = tam_sequencia(c, n, i);
+        if (t > maior_freq){
+            maior_freq = t;
+            qtde = 1;
+        } else if (t == maior_freq){
+            qtde++;
+        }
+        i += t;
+    }
+
+    // Guarda cada valor que atinge a maior frequência uma única vez
+    // Se nenhum valor se repete, maior_freq == 1 e todos os valores entram
+    double *modas = malloc(qtde * sizeof *modas);
+    if (modas != NULL){
+        size_t k = 0;
+        i = 0;
+        while (i < n){
+            size_t t = tam_sequencia(c, n, i);
+            if (t == maior_freq)
+                modas[k++] = c[i];
+            i += t;
+        }
+        *qtd = qtde;
+    }
+
+    free(c);
+    return modas;
 }
