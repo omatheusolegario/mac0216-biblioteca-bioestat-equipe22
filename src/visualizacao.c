@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "../include/visualizacao.h"
+#include "../include/bioestat_erro.h"
 
 // Função auxiliar que limpa completamente a matriz 2d onde o desenho acontece
 static void esvaziaCanvas(Canvas canvas_ascii)
@@ -68,9 +69,9 @@ static int normaliza(double valor, double min, double max, const int range_maxim
 }
 
 
-void dispersao_ascii(const double *X, const double *Y, const int tamanho, Canvas canvas_ascii)
+void be_dispersao_ascii(const double *X, const double *Y, const int tamanho, Canvas canvas_ascii)
 {
-    if(X== NULL || Y == NULL) return;
+    if(X== NULL || Y == NULL) return be_status.BE_ERRO_PONTEIRO_NULO;
 
     // permite referenciar a matriz de forma natural
     char (*canvas)[canvas_ascii.colunas] = (char (*)[canvas_ascii.colunas])canvas_ascii.ptr_canvas;
@@ -106,7 +107,7 @@ void dispersao_ascii(const double *X, const double *Y, const int tamanho, Canvas
     printf("    Y em [%.2f, %2.f]", min_y, max_y);
 }
 
-void histograma_ascii(const double *dados, const int tamanho, const int num_bins, Canvas canvas_ascii)
+void be_histograma_ascii(const double *dados, const int tamanho, const int num_bins, Canvas canvas_ascii)
 {
     if (dados == NULL) return;
     
@@ -166,7 +167,7 @@ void histograma_ascii(const double *dados, const int tamanho, const int num_bins
     free(frequencia_absoluta);
 }
 
-void boxplot_ascii(const double *dados, const int tamanho, Quartis q, Canvas canvas_ascii)
+void be_boxplot_ascii(const double *dados, const int tamanho, Quartis q, Canvas canvas_ascii)
 {   
     if (dados == NULL)return;
     // Permite referenciar a matriz de forma natural
@@ -258,7 +259,7 @@ void boxplot_ascii(const double *dados, const int tamanho, Quartis q, Canvas can
     }
 }
 
-void dispersao_svg(const char *nome_arquivo, const double *X, const double *Y, const int tamanho)
+void be_dispersao_svg(const char *nome_arquivo, const double *X, const double *Y, const int tamanho)
 {
     if (nome_arquivo == NULL || X == NULL || Y == NULL) return;
 
@@ -311,7 +312,7 @@ void dispersao_svg(const char *nome_arquivo, const double *X, const double *Y, c
     fclose(f);
 }
 
-void histograma_svg(const char *nome_arquivo, const double *dados, const int tamanho, const int num_bins)
+void be_histograma_svg(const char *nome_arquivo, const double *dados, const int tamanho, const int num_bins)
 {
     if (nome_arquivo == NULL || dados == NULL) return;  
 
@@ -387,7 +388,7 @@ void histograma_svg(const char *nome_arquivo, const double *dados, const int tam
     fclose(f);
 }
 
-void boxplot_svg(const char *nome_arquivo, const double *dados, const int tamanho, Quartis q)
+void be_boxplot_svg(const char *nome_arquivo, const double *dados, const int tamanho, Quartis q)
 {
     if (nome_arquivo == NULL || dados == NULL) return;  
 

@@ -36,7 +36,7 @@ typedef struct{
  * 
  * @warning Ambos vetores devem possuir o mesmo tamanho.
  */
-void dispersao_ascii(const double *X, const double *Y, const int tamanho, Canvas canvas_ascii);
+void be_dispersao_ascii(const double *X, const double *Y, const int tamanho, Canvas canvas_ascii);
 
 /**
  * @brief Desenha no terminal um histograma do array de dados fornecido.
@@ -47,7 +47,7 @@ void dispersao_ascii(const double *X, const double *Y, const int tamanho, Canvas
  * @param[out] canvas_ascii Struct do Canvas a ser modificado para representar o gráfico de dispersão.
  * 
  */
-void histograma_ascii(const double *dados, const int tamanho, const int num_bins, Canvas canvas_ascii);
+void be_histograma_ascii(const double *dados, const int tamanho, const int num_bins, Canvas canvas_ascii);
 
 /**
  * @brief Desenha no terminal um boxplot do array de dados e medidas resumo fornecidos.
@@ -58,7 +58,7 @@ void histograma_ascii(const double *dados, const int tamanho, const int num_bins
  * @param[out] canvas_ascii Struct do Canvas a ser modificado para representar o gráfico de dispersão.
  * 
  */
-void boxplot_ascii(const double *dados, const int tamanho, Quartis q, Canvas canvas_ascii);
+void be_boxplot_ascii(const double *dados, const int tamanho, Quartis q, Canvas canvas_ascii);
 
 /**
  * @brief Desenha em SVG/HTML um gráfico de dispersão entre dois arrays de dados de mesmo tamanho.
@@ -70,7 +70,7 @@ void boxplot_ascii(const double *dados, const int tamanho, Quartis q, Canvas can
  * 
  * @warning Ambos vetores devem possuir o mesmo tamanho e o nome do arquivo deve conter a extensão ".html".
  */
-void dispersao_svg(const char *nome_arquivo, const double *X, const double *Y, const int tamanho);
+void be_dispersao_svg(const char *nome_arquivo, const double *X, const double *Y, const int tamanho);
 
 /**
  * @brief Desenha em SVG/HTML um histograma do array de dados fornecido.
@@ -82,7 +82,7 @@ void dispersao_svg(const char *nome_arquivo, const double *X, const double *Y, c
  *  
  * @warning O nome do arquivo deve conter a extensão ".html".
  */
-void histograma_svg(const char *nome_arquivo, const double *dados, const int tamanho, const int num_bins);
+void be_histograma_svg(const char *nome_arquivo, const double *dados, const int tamanho, const int num_bins);
 
 /**
  * @brief Desenha em SVG/HTML um boxplot do array de dados e medidas resumo fornecidos.
