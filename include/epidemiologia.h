@@ -126,6 +126,7 @@ be_status be_odds_ratio(const be_tabela2x2 *t, double *saida);
  * @return BE_OK em caso de sucesso
  *         BE_ERRO_PONTEIRO_NULO se a saida ou t for NULL
  *         BE_ERRO_VALOR_INVALIDO se a tabela conter valores negativos
+ *         BE_ERRO_DIVISAO_POR_ZERO se (a + b == 0 ou c + d == 0)
  */
 be_status be_diferenca_riscos(const be_tabela2x2 *t, double *saida);
 
