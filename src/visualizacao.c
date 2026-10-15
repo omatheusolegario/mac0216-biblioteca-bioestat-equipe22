@@ -13,6 +13,12 @@ typedef struct{
     int offset;
 } Canvas;
 
+typedef struct{
+    double q1;
+    double q2;
+    double q3;
+} Quartis;
+
 static void esvaziaCanvas(Canvas canvas_ascii)
 {
     char (*canvas)[canvas_ascii.colunas] = (char (*)[canvas_ascii.colunas])canvas_ascii.ptr_canvas;
@@ -176,9 +182,12 @@ void histograma_ascii(const double *dados, const int tamanho, const int num_bins
         free(frequencia_absoluta);
 }
 
-void boxplot_ascii(const double *dados, const int tamanho, const double q1, const double med, const double q3, Canvas canvas_ascii)
+void boxplot_ascii(const double *dados, const int tamanho, Quartis q, Canvas canvas_ascii)
 {
     char (*canvas)[canvas_ascii.colunas] = (char (*)[canvas_ascii.colunas])canvas_ascii.ptr_canvas;
+    double q1 = q.q1;
+    double med = q.q2;
+    double q3 = q.q3;
 
     double min = q1;
     double max = q3;
@@ -365,8 +374,11 @@ void histograma_svg(const char *nome_arquivo, const double *dados, const int tam
     fclose(f);
 }
 
-void boxplot_svg(const char *nome_arquivo, const double *dados, const int tamanho, const double q1, const double med, const double q3)
+void boxplot_svg(const char *nome_arquivo, const double *dados, const int tamanho, Quartis q)
 {
+    double q1 = q.q1;
+    double med = q.q2;
+    double q3 = q.q3;
 
     double min = q1;
     double max = q3;
@@ -479,6 +491,6 @@ int main(int argc, char const *argv[])
     //histograma_ascii(Z, 10, 2, canvas);
     dispersao_ascii(X,Y,tamanho,canvas);
     //boxplot_ascii(A, 11, 5.5, 9.0, 11.5, canvas);
-    boxplot_svg(nome_arquivo, A, 11, 5.5, 9.0, 11.5);
+    boxplot_svg(nome_arquivo, A, 11,(Quartis){5.5, 9.0, 11.5});
     return 0;
 }
