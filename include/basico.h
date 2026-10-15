@@ -16,6 +16,7 @@
  *
  * @param[in] dados Vetor contendo os valores.
  * @param[in] n Tamanho do vetor dados.
+ * @param[out] media Recebe a média.
  *
  * @return be_status BE_OK caso não ocorra erros,
  *                   BE_ERRO_PONTEIRO_NULO se dados for nulo,
@@ -31,6 +32,7 @@ be_status be_media(const double *dados, size_t n, double *media);
  *
  * @param[in] dados Vetor contendo os valores.
  * @param[in] n Tamanho do vetor dados.
+ * @param[out] mediana Recebe a mediana.
  *
  * @return be_status BE_OK caso não ocorra erros,
  *                   BE_ERRO_PONTEIRO_NULO se dados for nulo,
@@ -46,6 +48,7 @@ be_status be_mediana(const double *dados, size_t n, double *mediana);
  *
  * @param[in] dados Vetor contendo os valores.
  * @param[in] n Tamanho do vetor dados.
+ * @param[out] var Recebe a variância.
  *
  * @return be_status BE_OK caso não ocorra erros,
  *                   BE_ERRO_PONTEIRO_NULO se dados for nulo,
@@ -61,6 +64,7 @@ be_status be_variancia(const double *dados, size_t n, double *var);
  *
  * @param[in] dados Vetor contendo os valores.
  * @param[in] n Tamanho do vetor dados.
+ * @param[out] dp Recebe o desvio padrão.
  *
  * @return be_status BE_OK caso não ocorra erros,
  *                   BE_ERRO_PONTEIRO_NULO se dados for nulo,
@@ -79,6 +83,7 @@ be_status be_desvio_padrao(const double *dados, size_t n, double *dp);
  * @param[in] dados Vetor contendo os valores.
  * @param[in] n Tamanho do vetor dados.
  * @param[out] qtd Recebe a quantidade de valores do vetor devolvido.
+ * @param[out] modas Recebe a(s) moda(s).
  *
  * @return be_status BE_OK caso não ocorra erros,
  *                   BE_ERRO_PONTEIRO_NULO se dados ou qtd for nulo,
@@ -91,6 +96,8 @@ be_status *be_moda(const double *dados, size_t n, size_t *qtd, double **modas);
  *
  * @param[in] dados Vetor contendo os valores.
  * @param[in] n Tamanho do vetor dados.
+ * @param[out] q1 Recebe o primeiro quartil.
+ *
  * @return be_status BE_OK caso não ocorra erros,
  *                   BE_ERRO_PONTEIRO_NULO se dados for nulo,
  *                   BE_ERRO_VALOR_INVALIDO se n == 0.
@@ -102,6 +109,8 @@ be_status be_quartil_1(const double *dados, size_t n, double *q1);
  *
  * @param[in] dados Vetor contendo os valores.
  * @param[in] n Tamanho do vetor dados.
+ * @param[out] q2 Recebe o segundo quartil.
+ *
  * @return be_status BE_OK caso não ocorra erros,
  *                   BE_ERRO_PONTEIRO_NULO se dados for nulo,
  *                   BE_ERRO_VALOR_INVALIDO se n == 0.
@@ -113,6 +122,8 @@ be_status be_quartil_2(const double *dados, size_t n, double *q2);
  *
  * @param[in] dados Vetor contendo os valores.
  * @param[in] n Tamanho do vetor dados.
+ * @param[out] Recebe o terceiro quartil.
+ *
  * @return be_status BE_OK caso não ocorra erros,
  *                   BE_ERRO_PONTEIRO_NULO se dados for nulo,
  *                   BE_ERRO_VALOR_INVALIDO se n == 0.
