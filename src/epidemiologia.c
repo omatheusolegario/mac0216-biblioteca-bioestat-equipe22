@@ -25,7 +25,6 @@ be_status be_risco_expostos(const be_tabela2x2 *t, double *saida){
 
     if (t->a + t->b == 0) return BE_ERRO_DIVISAO_POR_ZERO;
 
-
     // Cálculo da formula
     *saida = (double)t->a / (t->a + t->b);
 
@@ -40,7 +39,6 @@ be_status be_risco_naoexpostos(const be_tabela2x2 *t, double *saida){
     if (t->a < 0 || t->b < 0 || t->c < 0 || t->d < 0) return BE_ERRO_VALOR_INVALIDO;
 
     if (t->c + t->d == 0) return BE_ERRO_DIVISAO_POR_ZERO;
-
 
     // Cálculo da formula
     *saida = (double)t->c / (t->c + t->d);
@@ -57,7 +55,6 @@ be_status be_risco_relativo(const be_tabela2x2 *t, double *saida){
     if (t->a < 0 || t->b < 0 || t->c < 0 || t->d < 0) return BE_ERRO_VALOR_INVALIDO;
 
     if (t->a + t->b == 0 || t->c + t->d == 0) return BE_ERRO_DIVISAO_POR_ZERO;
-
 
     // Cálculo da formula
     double RE;  // Risco expostos
@@ -96,7 +93,6 @@ be_status be_diferenca_riscos(const be_tabela2x2 *t, double *saida){
     if (t == NULL || saida == NULL) return BE_ERRO_PONTEIRO_NULO;
 
     if (t->a < 0 || t->b < 0 || t->c < 0 || t->d < 0) return BE_ERRO_VALOR_INVALIDO;
-
 
     // Cálculo da formula
     double RE;  // Risco expostos
