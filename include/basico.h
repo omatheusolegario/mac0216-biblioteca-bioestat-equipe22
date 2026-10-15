@@ -21,7 +21,7 @@
  *                   BE_ERRO_PONTEIRO_NULO se dados for nulo,
  *                   BE_ERRO_VALOR_INVALIDO se n == 0.
  */
-be_status be_media(const double *dados, size_t n);
+be_status be_media(const double *dados, size_t n, double *media);
 
 
 /**
@@ -36,7 +36,7 @@ be_status be_media(const double *dados, size_t n);
  *                   BE_ERRO_PONTEIRO_NULO se dados for nulo,
  *                   BE_ERRO_VALOR_INVALIDO se n == 0.
  */
-be_status be_mediana(const double *dados, size_t n);
+be_status be_mediana(const double *dados, size_t n, double *mediana);
 
 
 /**
@@ -51,7 +51,7 @@ be_status be_mediana(const double *dados, size_t n);
  *                   BE_ERRO_PONTEIRO_NULO se dados for nulo,
  *                   BE_ERRO_VALOR_INVALIDO se n == 0.
  */
-be_status be_variancia(const double *dados, size_t n);
+be_status be_variancia(const double *dados, size_t n, double *var);
 
 
 /**
@@ -66,7 +66,7 @@ be_status be_variancia(const double *dados, size_t n);
  *                   BE_ERRO_PONTEIRO_NULO se dados for nulo,
  *                   BE_ERRO_VALOR_INVALIDO se n == 0.
  */
-be_status be_desvio_padrao(const double *dados, size_t n);
+be_status be_desvio_padrao(const double *dados, size_t n, double *dp);
 
 
 /**
@@ -84,7 +84,7 @@ be_status be_desvio_padrao(const double *dados, size_t n);
  *                   BE_ERRO_PONTEIRO_NULO se dados ou qtd for nulo,
  *                   BE_ERRO_VALOR_INVALIDO se n == 0.
  */
-be_status *be_moda(const double *dados, size_t n, size_t *qtd);
+be_status *be_moda(const double *dados, size_t n, size_t *qtd, double **modas);
 
 /**
  * @brief Primeiro quartil.
@@ -95,7 +95,7 @@ be_status *be_moda(const double *dados, size_t n, size_t *qtd);
  *                   BE_ERRO_PONTEIRO_NULO se dados for nulo,
  *                   BE_ERRO_VALOR_INVALIDO se n == 0.
  */
-be_status be_quartil_1(const double *dados, size_t n);
+be_status be_quartil_1(const double *dados, size_t n, double *q1);
 
 /**
  * @brief Segundo quartil.
@@ -106,7 +106,7 @@ be_status be_quartil_1(const double *dados, size_t n);
  *                   BE_ERRO_PONTEIRO_NULO se dados for nulo,
  *                   BE_ERRO_VALOR_INVALIDO se n == 0.
  */
-be_status be_quartil_2(const double *dados, size_t n);
+be_status be_quartil_2(const double *dados, size_t n, double *q2);
 
 /**
  * @brief Terceiro quartil.
@@ -117,6 +117,6 @@ be_status be_quartil_2(const double *dados, size_t n);
  *                   BE_ERRO_PONTEIRO_NULO se dados for nulo,
  *                   BE_ERRO_VALOR_INVALIDO se n == 0.
  */
-be_status be_quartil_3(const double *dados, size_t n);
+be_status be_quartil_3(const double *dados, size_t n, double *q3);
 
 #endif
