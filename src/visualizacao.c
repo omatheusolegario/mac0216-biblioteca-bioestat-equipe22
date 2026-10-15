@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include "../include/visualizacao.h"
-#include "../include/bioestat_erro.h"
 
 // Função auxiliar que limpa completamente a matriz 2d onde o desenho acontece
 static void esvaziaCanvas(Canvas canvas_ascii)
@@ -69,9 +68,10 @@ static int normaliza(double valor, double min, double max, const int range_maxim
 }
 
 
-void be_dispersao_ascii(const double *X, const double *Y, const int tamanho, Canvas canvas_ascii)
+be_status be_dispersao_ascii(const double *X, const double *Y, const int tamanho, Canvas canvas_ascii)
 {
-    if(X== NULL || Y == NULL) return be_status.BE_ERRO_PONTEIRO_NULO;
+    if(X== NULL || Y == NULL || canvas_ascii.ptr_canvas == NULL) return BE_ERRO_PONTEIRO_NULO;
+    if(tamanho<=0 || canvas_ascii.linhas <= 0 || canvas_ascii.colunas <= 0 || canvas_ascii.offset < 0) return BE_ERRO_VALOR_INVALIDO;
 
     // permite referenciar a matriz de forma natural
     char (*canvas)[canvas_ascii.colunas] = (char (*)[canvas_ascii.colunas])canvas_ascii.ptr_canvas;
@@ -105,11 +105,14 @@ void be_dispersao_ascii(const double *X, const double *Y, const int tamanho, Can
     printf("    Eixo x = X | Eixo y = Y | N = %d\n", tamanho);
     printf("    X em [%.2f, %2.f]\n", min_x, max_x);     
     printf("    Y em [%.2f, %2.f]", min_y, max_y);
+
+    return BE_OK;
 }
 
-void be_histograma_ascii(const double *dados, const int tamanho, const int num_bins, Canvas canvas_ascii)
+be_status be_histograma_ascii(const double *dados, const int tamanho, const int num_bins, Canvas canvas_ascii)
 {
-    if (dados == NULL) return;
+    if(dados == NULL || canvas_ascii.ptr_canvas == NULL) return BE_ERRO_PONTEIRO_NULO;
+    if(tamanho<=0 || num_bins < 0 || canvas_ascii.linhas <= 0 || canvas_ascii.colunas <= 0 || canvas_ascii.offset < 0) return BE_ERRO_VALOR_INVALIDO;
     
     // Permite referenciar a matriz 2d de forma natural
     char (*canvas)[canvas_ascii.colunas] = (char (*)[canvas_ascii.colunas])canvas_ascii.ptr_canvas;
@@ -125,7 +128,7 @@ void be_histograma_ascii(const double *dados, const int tamanho, const int num_b
 
     // Aloca um array dinamico zerado no heap para a frequência absoluta
     double *frequencia_absoluta = calloc(num_bins, sizeof *frequencia_absoluta);
-    if (frequencia_absoluta == NULL) return;
+    if (frequencia_absoluta == NULL) return BE_ERRO_PONTEIRO_NULO;
 
     // Para todo item de dados, acha o intervalo que ele pertence e incrementa a frequência absoluta daquele intervalo
     for (int i = 0; i < tamanho; i++)
@@ -165,11 +168,15 @@ void be_histograma_ascii(const double *dados, const int tamanho, const int num_b
         vmin+(largura_bins*i), vmin+(largura_bins*(i+1)), densidade_frequencia[i], frequencia_absoluta[i]);
     
     free(frequencia_absoluta);
+    
+    return BE_OK;
 }
 
-void be_boxplot_ascii(const double *dados, const int tamanho, Quartis q, Canvas canvas_ascii)
+be_status be_boxplot_ascii(const double *dados, const int tamanho, Quartis q, Canvas canvas_ascii)
 {   
-    if (dados == NULL)return;
+    if(dados == NULL || canvas_ascii.ptr_canvas == NULL) return BE_ERRO_PONTEIRO_NULO;
+    if(tamanho<=0 || canvas_ascii.linhas <= 0 || canvas_ascii.colunas <= 0 || canvas_ascii.offset < 0) return BE_ERRO_VALOR_INVALIDO;
+
     // Permite referenciar a matriz de forma natural
     char (*canvas)[canvas_ascii.colunas] = (char (*)[canvas_ascii.colunas])canvas_ascii.ptr_canvas;
 
@@ -257,15 +264,18 @@ void be_boxplot_ascii(const double *dados, const int tamanho, Quartis q, Canvas 
             printf("%.2f,", dados[i]);
         }
     }
+
+    return BE_OK;
 }
 
-void be_dispersao_svg(const char *nome_arquivo, const double *X, const double *Y, const int tamanho)
+be_status be_dispersao_svg(const char *nome_arquivo, const double *X, const double *Y, const int tamanho)
 {
-    if (nome_arquivo == NULL || X == NULL || Y == NULL) return;
+    if (nome_arquivo == NULL || X == NULL || Y == NULL) return BE_ERRO_PONTEIRO_NULO;
+    if (tamanho<=0) return BE_ERRO_VALOR_INVALIDO;
 
-    // Abre a escrita do arquivo html
+    // Cria o arquivo html com nome de nome_arquivo e atribui ele ao ponteiro f
     FILE *f = fopen(nome_arquivo, "w");
-    if (f == NULL) return;
+    if (f == NULL) return BE_ERRO_VALOR_INVALIDO;
 
     // Acha os valores mínimos e máximos de X e Y
     double min_x = achaMin(X, tamanho);
@@ -310,11 +320,14 @@ void be_dispersao_svg(const char *nome_arquivo, const double *X, const double *Y
     
     fprintf(f, "</svg> \n</body>\n</html>\n");
     fclose(f);
+    
+    return BE_OK;
 }
 
-void be_histograma_svg(const char *nome_arquivo, const double *dados, const int tamanho, const int num_bins)
+be_status be_histograma_svg(const char *nome_arquivo, const double *dados, const int tamanho, const int num_bins)
 {
-    if (nome_arquivo == NULL || dados == NULL) return;  
+    if (nome_arquivo == NULL || dados == NULL) return BE_ERRO_PONTEIRO_NULO;  
+    if (tamanho <= 0 || num_bins <0) return BE_ERRO_VALOR_INVALIDO;
 
     // Acha os valores máximos e minímos do array
     double vmax = achaMax(dados, tamanho);
@@ -327,7 +340,7 @@ void be_histograma_svg(const char *nome_arquivo, const double *dados, const int 
 
     // Aloca um array dinamico zerado no heap para a frequência absoluta
     double *frequencia_absoluta = calloc(num_bins, sizeof *frequencia_absoluta);
-    if (frequencia_absoluta == NULL) return;
+    if (frequencia_absoluta == NULL) return BE_ERRO_PONTEIRO_NULO;
 
     // Para todo item de dados, acha o intervalo que ele pertence e incrementa a frequência absoluta daquele intervalo
     for (int i = 0; i < tamanho; i++)
@@ -351,9 +364,9 @@ void be_histograma_svg(const char *nome_arquivo, const double *dados, const int 
     double largura_util = largura - (2 * margem);
     double altura_util = altura - (2 * margem);
 
-    // Abre a escrita do arquivo html
+    // Cria o arquivo html com nome de nome_arquivo e atribui ele ao ponteiro f
     FILE *f = fopen(nome_arquivo, "w");
-    if (f == NULL) return;
+    if (f == NULL) return BE_ERRO_VALOR_INVALIDO;
 
     // Cabeçalho do html e do svg
     fprintf(f, "<!DOCTYPE html>\n<html>\n<body>\n");
@@ -386,11 +399,14 @@ void be_histograma_svg(const char *nome_arquivo, const double *dados, const int 
     free(frequencia_absoluta);
     fprintf(f, "</svg> \n</body>\n</html>\n");
     fclose(f);
+
+    return BE_OK;
 }
 
-void be_boxplot_svg(const char *nome_arquivo, const double *dados, const int tamanho, Quartis q)
+be_status be_boxplot_svg(const char *nome_arquivo, const double *dados, const int tamanho, Quartis q)
 {
-    if (nome_arquivo == NULL || dados == NULL) return;  
+    if (nome_arquivo == NULL || dados == NULL) return BE_ERRO_PONTEIRO_NULO;  
+    if (tamanho <= 0) return BE_ERRO_VALOR_INVALIDO;
 
     // Simplifica a escrita na função dessas variáveis, deixando a leitura mais limpa também
     double q1 = q.q1;
@@ -426,9 +442,9 @@ void be_boxplot_svg(const char *nome_arquivo, const double *dados, const int tam
     double largura_util = largura - (2 * margem);
     double altura_util = altura - (2 * margem);
 
-    // Abre a escrita do arquivo html
+    // Cria o arquivo html com nome de nome_arquivo e atribui ele ao ponteiro f
     FILE *f = fopen(nome_arquivo, "w");
-    if (f == NULL) return;
+    if (f == NULL) return BE_ERRO_VALOR_INVALIDO;
 
     // Cabeçalho do html e svg
     fprintf(f, "<!DOCTYPE html>\n<html>\n<body>\n");
@@ -478,7 +494,6 @@ void be_boxplot_svg(const char *nome_arquivo, const double *dados, const int tam
     // Desenha um pontilhado no limite inferior
     fprintf(f, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"black\" stroke-width=\"2\" stroke-dasharray=\"5,5\"/>\n", x_li, margem, x_li, altura-margem);
 
-
     // Escreve o menor valor dentro dos limites abaixo dele no gráfico
     fprintf(f, "<text x=\"%.2f\" y=\"%.2f\" font-family=\"sans-serif\" font-size=\"12\" fill=\"black\" text-anchor=\"middle\">%.2f</text>\n", x_min,  y + 40, min);
    
@@ -516,4 +531,6 @@ void be_boxplot_svg(const char *nome_arquivo, const double *dados, const int tam
 
     fprintf(f, "</svg> \n</body>\n</html>\n");
     fclose(f);
+
+    return BE_OK;
 }

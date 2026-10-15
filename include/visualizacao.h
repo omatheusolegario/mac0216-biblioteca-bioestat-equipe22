@@ -7,6 +7,8 @@
 
  #ifndef VISUALIZACAO_H
  #define VISUALIZACAO_H
+
+ #include "bioestat_erro.h"
 /**
  * @brief Struct responsável por agrupar tudo relacionado a matriz onde será desenhada o gráfico em ASCII.
  */
@@ -32,11 +34,14 @@ typedef struct{
  * @param[in] X Vetor que agrupa valores de entrada no eixo horizontal.
  * @param[in] Y Vetor que agrupa valores de entrada no eixo vertical.
  * @param[in] tamanho Tamanho de ambos arrays.
- * @param[out] canvas_ascii Struct do Canvas a ser modificado para representar o gráfico de dispersão.
+ * @param[in, out] canvas_ascii Struct do Canvas a ser modificado para representar o gráfico de dispersão.
  * 
+ * @return be_status BE_OK caso não ocorra erros,
+ *                   BE_ERRO_PONTEIRO_NULO se X, Y, ou ptr_canvas forem nulos,
+ *                   BE_ERRO_VALOR_INVALIDO se tamanho, linhas ou colunas forem <=0 ou também offset < 0.
  * @warning Ambos vetores devem possuir o mesmo tamanho.
  */
-void be_dispersao_ascii(const double *X, const double *Y, const int tamanho, Canvas canvas_ascii);
+be_status be_dispersao_ascii(const double *X, const double *Y, const int tamanho, Canvas canvas_ascii);
 
 /**
  * @brief Desenha no terminal um histograma do array de dados fornecido.
@@ -44,10 +49,13 @@ void be_dispersao_ascii(const double *X, const double *Y, const int tamanho, Can
  * @param[in] dados Vetor que agrupa os valores de entrada.
  * @param[in] tamanho Tamanho do vetor dados.
  * @param[in] num_bins Número de intervalos a serem incluídos no histograma.
- * @param[out] canvas_ascii Struct do Canvas a ser modificado para representar o gráfico de dispersão.
+ * @param[in, out] canvas_ascii Struct do Canvas a ser modificado para representar o gráfico de dispersão.
  * 
+ * @return be_status BE_OK caso não ocorra erros,
+ *                   BE_ERRO_PONTEIRO_NULO se dados, ptr_canvas ou frequencia_absoluta forem nulos,
+ *                   BE_ERRO_VALOR_INVALIDO se tamanho, linhas ou colunas forem <=0 ou também offset e num_bins < 0.
  */
-void be_histograma_ascii(const double *dados, const int tamanho, const int num_bins, Canvas canvas_ascii);
+be_status be_histograma_ascii(const double *dados, const int tamanho, const int num_bins, Canvas canvas_ascii);
 
 /**
  * @brief Desenha no terminal um boxplot do array de dados e medidas resumo fornecidos.
@@ -56,9 +64,13 @@ void be_histograma_ascii(const double *dados, const int tamanho, const int num_b
  * @param[in] tamanho Tamanho do vetor dados.
  * @param[in] q Struct contendo os três quartis necessários para o boxplot.
  * @param[out] canvas_ascii Struct do Canvas a ser modificado para representar o gráfico de dispersão.
+ *  
+ * @return be_status BE_OK caso não ocorra erros,
+ *                   BE_ERRO_PONTEIRO_NULO se dados ou ptr_canvas forem nulos,
+ *                   BE_ERRO_VALOR_INVALIDO se tamanho, linhas ou colunas forem <=0 ou também offset < 0.
  * 
  */
-void be_boxplot_ascii(const double *dados, const int tamanho, Quartis q, Canvas canvas_ascii);
+be_status be_boxplot_ascii(const double *dados, const int tamanho, Quartis q, Canvas canvas_ascii);
 
 /**
  * @brief Desenha em SVG/HTML um gráfico de dispersão entre dois arrays de dados de mesmo tamanho.
@@ -68,9 +80,13 @@ void be_boxplot_ascii(const double *dados, const int tamanho, Quartis q, Canvas 
  * @param[in] Y Vetor que agrupa valores de entrada no eixo vertical.
  * @param[in] tamanho Tamanho de ambos arrays.
  * 
+ * @return be_status BE_OK caso não ocorra erros,
+ *                   BE_ERRO_PONTEIRO_NULO se nome_arquivo, X, Y ou ptr_canvas forem nulos,
+ *                   BE_ERRO_VALOR_INVALIDO se tamanho <= 0 ou se falhar na criação do arquivo html.
+ * 
  * @warning Ambos vetores devem possuir o mesmo tamanho e o nome do arquivo deve conter a extensão ".html".
  */
-void be_dispersao_svg(const char *nome_arquivo, const double *X, const double *Y, const int tamanho);
+be_status be_dispersao_svg(const char *nome_arquivo, const double *X, const double *Y, const int tamanho);
 
 /**
  * @brief Desenha em SVG/HTML um histograma do array de dados fornecido.
@@ -79,10 +95,14 @@ void be_dispersao_svg(const char *nome_arquivo, const double *X, const double *Y
  * @param[in] dados Vetor que agrupa os valores de entrada.
  * @param[in] tamanho Tamanho do vetor dados.
  * @param[in] num_bins Número de intervalos a serem incluídos no histograma.
- *  
+ * 
+ * @return be_status BE_OK caso não ocorra erros,
+ *                   BE_ERRO_PONTEIRO_NULO se nome_arquivo, dados ou frequencia_absoluta forem nulos,
+ *                   BE_ERRO_VALOR_INVALIDO se tamanho <= 0 ou num_bins < 0 ou se falhar na criação do arquivo html.
+ * 
  * @warning O nome do arquivo deve conter a extensão ".html".
  */
-void be_histograma_svg(const char *nome_arquivo, const double *dados, const int tamanho, const int num_bins);
+be_status be_histograma_svg(const char *nome_arquivo, const double *dados, const int tamanho, const int num_bins);
 
 /**
  * @brief Desenha em SVG/HTML um boxplot do array de dados e medidas resumo fornecidos.
@@ -92,8 +112,12 @@ void be_histograma_svg(const char *nome_arquivo, const double *dados, const int 
  * @param[in] tamanho Tamanho do vetor dados.
  * @param[in] q Struct contendo os três quartis necessários para o boxplot.
  * 
+ * @return be_status BE_OK caso não ocorra erros,
+ *                   BE_ERRO_PONTEIRO_NULO se nome_arquivo ou dados forem nulos,
+ *                   BE_ERRO_VALOR_INVALIDO se tamanho <= 0 ou se falhar na criação do arquivo html.
+ * 
  * @warning O nome do arquivo deve conter a extensão ".html".
  */
-void boxplot_svg(const char *nome_arquivo, const double *dados, const int tamanho, Quartis q);
+be_status boxplot_svg(const char *nome_arquivo, const double *dados, const int tamanho, Quartis q);
 
 #endif
