@@ -66,19 +66,19 @@ $(STATIC_LIB): $(LIB_OBJS)
 # Biblioteca dinamica: os mesmos .o, ligados num unico arquivo carregado na execucao
 $(SHARED_LIB): $(LIB_OBJS)
 	mkdir -p lib
-	$(CC) $(SHARED_FLAGS) -o $@ $^
+	$(CC) $(SHARED_FLAGS) -o $@ $^ $(LDLIBS)
 
 # O app e ligado com a biblioteca,
 bin/app_estatica: build/main.o $(STATIC_LIB)
 	mkdir -p bin
-	$(CC) build/main.o $(STATIC_LIB) -o $@
+	$(CC) build/main.o $(STATIC_LIB) $(LDLIBS) -o $@
 
 # App dinamico: -L diz ONDE procurar, -l diz QUAL biblioteca, o rpath diz onde ela estara na EXECUCAO
 # rpath - endereço dentro do executável que indica onde procurar a biblioteca (nesse caso, em /lib)
 # Alternativa a exportar uma variável como LIBRARY_PATH
 bin/app_dinamica: build/main.o $(SHARED_LIB)
 	mkdir -p bin
-	$(CC) build/main.o -Llib -lbioestat $(RPATH) -o $@
+	$(CC) build/main.o -Llib -lbioestat $(RPATH) $(LDLIBS) -o $@
 
 # Parte dos testes:
 # Compila cada tests/test_x.c em build/tests/test_x.o
@@ -92,7 +92,7 @@ build/tests/%.o: tests/%.c
 # Liga cada teste com a biblioteca ESTATICA
 bin/tests/%: build/tests/%.o $(STATIC_LIB)
 	mkdir -p bin/tests
-	$(CC) $< $(STATIC_LIB) -o $@
+	$(CC) $< $(STATIC_LIB) $(LDLIBS) -o $@
 
 # Roda todos os testes; falha (codigo de saida != 0) se algum falhar
 test: $(TEST_BINS)
