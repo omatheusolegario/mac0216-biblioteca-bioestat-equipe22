@@ -89,7 +89,7 @@ be_status be_risco_naoexpostos(const be_tabela2x2 *t, double *saida);
  * @return BE_OK em caso de sucesso
  *         BE_ERRO_PONTEIRO_NULO se a saida ou t for NULL
  *         BE_ERRO_VALOR_INVALIDO se a tabela conter valores negativos
- *         BE_ERRO_DIVISAO_POR_ZERO se houver divisão por 0 (se a + b == 0 ou c + d == 0)
+ *         BE_ERRO_DIVISAO_POR_ZERO se houver divisão por 0 (se a + b == 0 ou c + d == 0 ou c == 0)
  */
 be_status be_risco_relativo(const be_tabela2x2 *t, double *saida);
 

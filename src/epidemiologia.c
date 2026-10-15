@@ -66,9 +66,9 @@ be_status be_risco_relativo(const be_tabela2x2 *t, double *saida){
     be_status st2 = be_risco_naoexpostos(t, &RNE);
     
     // Verifica erros
-    if (RNE == 0) return BE_ERRO_DIVISAO_POR_ZERO;
     if (st1 != 0) return st1;
     if (st2 != 0) return st2;
+    if (RNE == 0) return BE_ERRO_DIVISAO_POR_ZERO;
 
     // Escreve em saida
     *saida = (double)RE / RNE;
@@ -90,7 +90,6 @@ be_status be_odds_ratio(const be_tabela2x2 *t, double *saida){
     *saida = ((double)t->a * (double)t->d) / ((double)t->b * (double)t->c);
 
     return BE_OK;
-
 }
 be_status be_diferenca_riscos(const be_tabela2x2 *t, double *saida){
     // Tratamento de erros
