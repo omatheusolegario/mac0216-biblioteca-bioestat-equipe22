@@ -41,7 +41,7 @@ TEST_BINS = $(patsubst tests/%.c,bin/tests/%,$(TEST_SRCS))
 
 all: bin/app_estatica bin/app_dinamica
 
-.PHONY: all test clean
+.PHONY: all run test clean
 
 # qualquer build/x.o vem de src/x.c
 # Para eu lembrar: $@ é o alvo, $< é a primeira dependência
@@ -104,6 +104,13 @@ test: $(TEST_BINS)
 	if [ $$falhou -eq 0 ]; then echo "RESULTADO: TODOS OS TESTES PASSARAM"; \
 	else echo "RESULTADO: HA TESTES FALHANDO"; exit 1; fi
 
+
+# --- Executar a aplicacao com as duas bibliotecas ---
+run: all
+	@echo "=== Aplicacao com biblioteca ESTATICA ==="
+	./bin/app_estatica
+	@echo "=== Aplicacao com biblioteca DINAMICA ==="
+	./bin/app_dinamica
 
 clean:
 	rm -rf build bin lib
