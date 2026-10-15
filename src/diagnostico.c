@@ -1,3 +1,4 @@
+#include "../include/diagnostico.h"
 double sensibilidade(int vp, int fn)
 {
     double sens = vp;

@@ -1,4 +1,12 @@
 /**
+ * @file diagnostico.h
+ * @brief Testes diagnósticos
+ */
+
+#ifndef DIAGNOSTICO_H
+#define DIAGNOSTICO_H
+
+/**
  * @brief Capacidade do teste de identificar corretamente quem tem a doença
  * @param vp Verdadeiros positivos
  * @param fn Falsos negativos
@@ -33,3 +41,5 @@ double vpp(int vp, int fp);
  * @return Proporção de pessoas sem a doença entre os resultados negativos
  */
 double vpn(int vn, int fn);
+
+#endif
