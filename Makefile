@@ -1,26 +1,27 @@
 
-# Makefile bem básico - to aprendendo a fazer
-
+# Makefile bem básico - versão para arquivos genéricos, podendo ser usado em todos os módulos
+# OBS: não tem os .h aqui ainda, então mudanças nos .h ainda não vao ser vistas
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -Iinclude
 
+# Todos os .c de src/ viram .o em build/ (descobertos automaticamente)
+LIB_SRCS = $(wildcard src/*.c)
+LIB_OBJS = $(patsubst src/%.c,build/%.o,$(LIB_SRCS))
+
 all: bin/app
 
-build/epidemiologia.o: src/epidemiologia.c include/epidemiologia.h include/bioestat_erro.h
+# Regra generica: qualquer build/X.o vem de src/X.c
+build/%.o: src/%.c
 	mkdir -p build
-	$(CC) $(CFLAGS) -c src/epidemiologia.c -o build/epidemiologia.o
+	$(CC) $(CFLAGS) -c $< -o $@
 
-build/bioestat_erro.o: src/bioestat_erro.c include/bioestat_erro.h
+build/main.o: app/main.c
 	mkdir -p build
-	$(CC) $(CFLAGS) -c src/bioestat_erro.c -o build/bioestat_erro.o
+	$(CC) $(CFLAGS) -c $< -o $@
 
-build/main.o: app/main.c include/epidemiologia.h include/bioestat_erro.h
-	mkdir -p build
-	$(CC) $(CFLAGS) -c app/main.c -o build/main.o
-
-bin/app: build/main.o build/epidemiologia.o build/bioestat_erro.o
+bin/app: build/main.o $(LIB_OBJS)
 	mkdir -p bin
-	$(CC) build/main.o build/epidemiologia.o build/bioestat_erro.o -o bin/app
+	$(CC) $^ -o $@
 
 clean:
 	rm -rf build bin
