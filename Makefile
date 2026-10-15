@@ -1,7 +1,4 @@
 
-# Makefile bem básico - versão para arquivos genéricos, podendo ser usado em todos os módulos
-# OBS: não tem os .h aqui ainda, então mudanças nos .h ainda não vao ser vistas
-
 # Todos os .c de src/ viram .o em build/ (descobertos automaticamente)
 # wildcard - faz um ls src/*.c aqui, essa variável vira todos os src/*.c
 # patsubst faz um map(), em que pega todos os *.c que tem em src e vira build/*.o, assim,
@@ -60,6 +57,8 @@ bin/app_estatica: build/main.o $(STATIC_LIB)
 	$(CC) build/main.o $(STATIC_LIB) -o $@
 
 # App dinamico: -L diz ONDE procurar, -l diz QUAL biblioteca, o rpath diz onde ela estara na EXECUCAO
+# rpath - endereço dentro do executável que indica onde procurar a biblioteca (nesse caso, em /lib)
+# Alternativa a exportar uma variável como LIBRARY_PATH
 bin/app_dinamica: build/main.o $(SHARED_LIB)
 	mkdir -p bin
 	$(CC) build/main.o -Llib -lbioestat $(RPATH) -o $@
