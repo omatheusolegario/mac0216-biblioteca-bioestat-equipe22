@@ -118,6 +118,6 @@ be_status be_histograma_svg(const char *nome_arquivo, const double *dados, const
  * 
  * @warning O nome do arquivo deve conter a extensão ".html".
  */
-be_status boxplot_svg(const char *nome_arquivo, const double *dados, const int tamanho, Quartis q);
+be_status be_boxplot_svg(const char *nome_arquivo, const double *dados, const int tamanho, Quartis q);
 
 #endif

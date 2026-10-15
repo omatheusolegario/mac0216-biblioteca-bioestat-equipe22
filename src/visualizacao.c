@@ -103,8 +103,8 @@ be_status be_dispersao_ascii(const double *X, const double *Y, const int tamanho
     imprimeCanvas(canvas_ascii);
     printf("Legenda\n");
     printf("    Eixo x = X | Eixo y = Y | N = %d\n", tamanho);
-    printf("    X em [%.2f, %2.f]\n", min_x, max_x);     
-    printf("    Y em [%.2f, %2.f]", min_y, max_y);
+    printf("    X em [%.2f, %.2f]\n", min_x, max_x);     
+    printf("    Y em [%.2f, %.2f]\n", min_y, max_y);
 
     return BE_OK;
 }
@@ -166,7 +166,8 @@ be_status be_histograma_ascii(const double *dados, const int tamanho, const int 
 
     for (int i =0; i< num_bins; i++)printf("    Bin %d [%.2f, %.2f): Densidade = %.2f | Freq = %0.f\n", i+1, 
         vmin+(largura_bins*i), vmin+(largura_bins*(i+1)), densidade_frequencia[i], frequencia_absoluta[i]);
-    
+    printf("\n");
+
     free(frequencia_absoluta);
     
     return BE_OK;
@@ -264,6 +265,7 @@ be_status be_boxplot_ascii(const double *dados, const int tamanho, Quartis q, Ca
             printf("%.2f,", dados[i]);
         }
     }
+    printf("\n");
 
     return BE_OK;
 }
