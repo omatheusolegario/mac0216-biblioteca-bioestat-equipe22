@@ -84,6 +84,7 @@ static double achaMax(const double *x, const int colunas)
 
 static int normaliza(double valor, double min, double max, const int range_maximo)
 {
+    if (max==min) return 0;
     return round(((valor - min) / (max - min)) * (range_maximo - 1));
 }
 
@@ -101,12 +102,16 @@ void dispersao_ascii(const double *X, const double *Y, const int tamanho, Canvas
 
     for (int i = 0; i < tamanho; i++)
     {
-        int coluna = canvas_ascii.offset + normaliza(X[i], min_x, max_x, canvas_ascii.colunas - canvas_ascii.offset -1);
+        int coluna = canvas_ascii.offset+1 + normaliza(X[i], min_x, max_x, canvas_ascii.colunas - canvas_ascii.offset -1);
         int linha_bruta = normaliza(Y[i], min_y, max_y, canvas_ascii.linhas - canvas_ascii.offset -1);
         int linha = (canvas_ascii.linhas - canvas_ascii.offset - 1) - linha_bruta;
         canvas[linha][coluna] = '*';
     }
     imprimeCanvas(canvas_ascii);
+    printf("Legenda\n");
+    printf("    Eixo x = X | Eixo y = Y | N = %d\n", tamanho);
+    printf("    X em [%.2f, %2.f]\n", min_x, max_x);     
+    printf("    Y em [%.2f, %2.f]", min_y, max_y);
 }
 
 void histograma_ascii(const double *dados, const int tamanho, const int num_bins, Canvas canvas_ascii)
@@ -130,10 +135,8 @@ void histograma_ascii(const double *dados, const int tamanho, const int num_bins
     for (int i = 0; i < tamanho; i++)
     {
         int index = (int)((dados[i] - vmin) / largura_bins);
-        if (index >= num_bins)
-        {
-            index = num_bins - 1;
-        }
+        if (index >= num_bins) index = num_bins - 1;
+        if (index<0) index=0;
         frequencia_absoluta[index]++;
     }
 
@@ -160,9 +163,17 @@ void histograma_ascii(const double *dados, const int tamanho, const int num_bins
         }
     }
 
-    free(frequencia_absoluta);
+
 
     imprimeCanvas(canvas_ascii);
+
+    printf("Legenda\n");
+
+    for (int i =0; i< num_bins; i++){
+        printf("    Bin %d [%.2f, %.2f): Densidade = %.2f | Freq = %0.f\n", i+1, vmin+(largura_bins*i), vmin+(largura_bins*(i+1)), densidade_frequencia[i], frequencia_absoluta[i]);
+    }
+
+        free(frequencia_absoluta);
 }
 
 void boxplot_ascii(const double *dados, const int tamanho, const double q1, const double med, const double q3, Canvas canvas_ascii)
@@ -195,11 +206,11 @@ void boxplot_ascii(const double *dados, const int tamanho, const double q1, cons
         vmax = vmin + 1.0;
     }
 
-    int x_min = canvas_ascii.offset + normaliza(min, vmin, vmax, canvas_ascii.colunas - canvas_ascii.offset-1);
-    int x_q1 = canvas_ascii.offset + normaliza(q1, vmin, vmax, canvas_ascii.colunas - canvas_ascii.offset-1);
-    int x_med = canvas_ascii.offset + normaliza(med, vmin, vmax, canvas_ascii.colunas - canvas_ascii.offset-1);
-    int x_q3 = canvas_ascii.offset + normaliza(q3, vmin, vmax, canvas_ascii.colunas - canvas_ascii.offset-1);
-    int x_max = canvas_ascii.offset + normaliza(max, vmin, vmax, canvas_ascii.colunas - canvas_ascii.offset-1);
+    int x_min = canvas_ascii.offset+1 + normaliza(min, vmin, vmax, canvas_ascii.colunas - canvas_ascii.offset-1);
+    int x_q1 = canvas_ascii.offset+1 + normaliza(q1, vmin, vmax, canvas_ascii.colunas - canvas_ascii.offset-1);
+    int x_med = canvas_ascii.offset+1 + normaliza(med, vmin, vmax, canvas_ascii.colunas - canvas_ascii.offset-1);
+    int x_q3 = canvas_ascii.offset+1 + normaliza(q3, vmin, vmax, canvas_ascii.colunas - canvas_ascii.offset-1);
+    int x_max = canvas_ascii.offset+1 + normaliza(max, vmin, vmax, canvas_ascii.colunas - canvas_ascii.offset-1);
 
     int y = (canvas_ascii.linhas - canvas_ascii.offset-1) / 2; // centro das linhas
 
@@ -231,12 +242,13 @@ void boxplot_ascii(const double *dados, const int tamanho, const double q1, cons
     {
         if (dados[i] < li || dados[i] > ls)
         {
-            int x_normalizado = canvas_ascii.offset + normaliza(dados[i], vmin, vmax, canvas_ascii.colunas - canvas_ascii.offset-1);
+            int x_normalizado = canvas_ascii.offset+1 + normaliza(dados[i], vmin, vmax, canvas_ascii.colunas - canvas_ascii.offset-1);
             canvas[y][x_normalizado] = '*';
         }
     }
 
     imprimeCanvas(canvas_ascii);
+    printf("Legenda\n");
     printf("x_min: %.2f\nq1: %.2f\nmed: %.2f\nq3: %.2f\nx_max: %.2f\noutliers: ", min, q1, med, q3, max);
     for (int i = 0; i < tamanho; i++)
     {
@@ -304,10 +316,8 @@ void histograma_svg(const char *nome_arquivo, const double *dados, const int tam
     for (int i = 0; i < tamanho; i++)
     {
         int index = (int)((dados[i] - vmin) / largura_bins);
-        if (index >= num_bins)
-        {
-            index = num_bins - 1;
-        }
+        if (index >= num_bins) index = num_bins - 1;
+        if (index<0) index=0;
         frequencia_absoluta[index]++;
     }
 
@@ -409,7 +419,7 @@ void boxplot_svg(const char *nome_arquivo, const double *dados, const int tamanh
 
     double y = altura_util / 2; // centro das linhas
 
-    fprintf(f, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.0f\" height=\"%.2d\"fill=\"#006080\" stroke=\"black\" stroke-width=\"1\"/>\n", x_q1, y - 20, (x_q3 - x_q1), 40);
+    fprintf(f, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.0f\" height=\"40\" fill=\"#006080\" stroke=\"black\" stroke-width=\"1\"/>\n", x_q1, y - 20, (x_q3 - x_q1));
     fprintf(f, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"black\" stroke-width=\"2\"/>\n", x_min, y, x_q1, y);
 
     fprintf(f, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"black\" stroke-width=\"2\"/>\n", x_q3, y, x_max, y);
@@ -466,8 +476,8 @@ int main(int argc, char const *argv[])
 
     //dispersao_svg(nome_arquivo, X, Y, tamanho);
     //histograma_svg(nome_arquivo, Z, 10, 2);
-    histograma_ascii(Z, 10, 2, canvas);
-    // dispersao_ascii(X,Y,tamanho,canvas);
+    //histograma_ascii(Z, 10, 2, canvas);
+    dispersao_ascii(X,Y,tamanho,canvas);
     //boxplot_ascii(A, 11, 5.5, 9.0, 11.5, canvas);
     boxplot_svg(nome_arquivo, A, 11, 5.5, 9.0, 11.5);
     return 0;
