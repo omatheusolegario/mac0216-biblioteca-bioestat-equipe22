@@ -1,10 +1,10 @@
 /**
  * @file bioestat_erro.h
- * @brief Convenção de erros compartilhada por TODOS os módulos da libbioestat.
+ * @brief Convenção de erros compartilhada por todos os módulos da libbioestat.
  *
- * Regra para nós: toda função pública que pode falhar
- *   1. retorna um be_status (BE_OK em caso de sucesso);
- *   2. devolve o resultado calculado por um ponteiro de saída.
+ *  toda função pública que pode falhar deve:
+ *   1. retornar um be_status (BE_OK em caso de sucesso);
+ *   2. devolver o resultado calculado por um ponteiro de saída.
  *
  * Exemplo de uso:
  *   double rr;
