@@ -7,7 +7,7 @@ int main(void){
     /* ---------- be_preencher_tabela ---------- */
 
     /* caso normal: entrada valida grava os 4 campos */
-    be_tabela2x2 tb = {-9, -9, -9, -9};   /* sentinela: nao pode passar por acaso */
+    be_tabela2x2 tb = {-9, -9, -9, -9};   /* nao pode passar por acaso */
     be_status st = be_preencher_tabela(1, 2, 3, 4, &tb);
     VERIFICA(st == BE_OK, "preencher_tabela: entrada valida devolve BE_OK");
     VERIFICA(tb.a == 1, "preencher_tabela: grava a");
@@ -22,7 +22,7 @@ int main(void){
     VERIFICA(tz.a == 0 && tz.b == 0 && tz.c == 0 && tz.d == 0,
              "preencher_tabela: zeros sao gravados");
 
-    /* invalido: um valor negativo em CADA parametro, saida intacta em erro */
+    /* invalido: um valor negativo em cada parametro, saida intacta em erro */
     be_tabela2x2 t2 = {7, 7, 7, 7};
     st = be_preencher_tabela(-1, 0, 0, 0, &t2);
     VERIFICA(st == BE_ERRO_VALOR_INVALIDO, "preencher_tabela: a negativo devolve erro");
@@ -37,5 +37,10 @@ int main(void){
     st = be_preencher_tabela(1, 2, 3, 4, NULL);
     VERIFICA(st == BE_ERRO_PONTEIRO_NULO, "preencher_tabela: saida NULL devolve erro");
 
+
+
+
+
+    
     return RESULTADO_TESTES();
 }
