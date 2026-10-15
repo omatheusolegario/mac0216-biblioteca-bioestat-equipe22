@@ -11,8 +11,6 @@
  * 
  *  
  */
-
-
 #ifndef EPIDEMIOLOGIA_H
 #define EPIDEMIOLOGIA_H
 
@@ -36,10 +34,12 @@ typedef struct {
  * @param saida é o ponteiro para a tabela, onde os parametros serão gravados
  * 
  * @return BE_OK em caso de sucesso
- *         BE_PONTEIRO_NULO se a saída for NULL
+ *         BE_ERRO_PONTEIRO_NULO se a saída for NULL
  *         BE_ERRO_VALOR_INVALIDO se qualquer parametro a, b, c ou d for < 0
  */
-be_status be_criar_tabela(long a, long b, long c, long d, be_tabela2x2 *saida);
+be_status be_preencher_tabela(long a, long b, long c, long d, be_tabela2x2 *saida);
+
+
 be_status be_risco_expostos(const be_tabela2x2 *t, double *saida);
 be_status be_risco_naoexpostos(const be_tabela2x2 *t, double *saida);
 be_status be_risco_relativo(const be_tabela2x2 *t, double *saida);
