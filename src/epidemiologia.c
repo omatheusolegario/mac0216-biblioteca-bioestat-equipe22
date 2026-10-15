@@ -84,10 +84,10 @@ be_status be_odds_ratio(const be_tabela2x2 *t, double *saida){
 
     if (t->a < 0 || t->b < 0 || t->c < 0 || t->d < 0) return BE_ERRO_VALOR_INVALIDO;
 
-    if (t->b * t->c == 0) return BE_ERRO_DIVISAO_POR_ZERO;
+    if (t->b == 0 || t->c == 0) return BE_ERRO_DIVISAO_POR_ZERO;
 
     // Cálculo da formula
-    *saida = (double)(t->a * t->d) / (t->b * t->c);
+    *saida = ((double)t->a * (double)t->d) / ((double)t->b * (double)t->c);
 
     return BE_OK;
 
