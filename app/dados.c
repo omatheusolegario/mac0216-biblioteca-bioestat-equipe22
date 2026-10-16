@@ -52,6 +52,36 @@ int read_vector(Dados *dados){
     return 0;
 }
 
+int read_vector2(Dados *dados){
+    long n2;
+
+    if (read_long("  Quantos valores? (>= 1) ", &n2) != 0) return -1;
+
+    double *novo = malloc(n2 * sizeof *novo);
+    if (novo == NULL) {
+        printf("\n  Faltou memoria.\n");
+        return -1;
+    }
+
+    for (long i = 0; i < n2; i++) {
+        char prompt[40];
+        snprintf(prompt, sizeof prompt, "  valor %ld de %ld = ", i + 1, n2);
+
+        // Se a entrada acabar (ou não for número), libera o que já foi alocado
+        if (read_double(prompt, &novo[i]) != 0) {
+            free(novo);
+            return -1;
+        }
+    }
+
+    // Só agora, com tudo lido, troca o vetor antigo pelo novo
+    free(dados->vetor2);
+    dados->vetor = novo;
+    dados->n2 = (size_t)n2;
+    return 0;
+}
+
+
 // Pergunta se o usuário quer informar o dado agora. Devolve 1 se sim
 static int quer_informar(const char *aviso){
     long resposta = 0;

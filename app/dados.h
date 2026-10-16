@@ -15,13 +15,16 @@
 #define DADOS_H
 
 #include <stddef.h>
-#include "epidemiologia.h"
+#include "../include/epidemiologia.h"
 
 typedef struct {
     be_tabela2x2 tabela; /**< Tabela 2x2 (só vale se tem_tabela != 0). */
     int tem_tabela;      /**< 1 se há uma tabela carregada, 0 se não. */
     double *vetor;       /**< Vetor alocado com malloc (NULL se não tiver). */
+    double *vetor2;      /**< Vetor alocado com malloc (NULL se não tiver). */
+    long num_bins;        /**< Número de intervalos para o histograma. */
     size_t n;            /**< Quantidade de valores em vetor (0 se não tiver). */
+    size_t n2;          /**< Quantidade de valores em vetor2 (0 se não tiver). */
 } Dados;
 
 /**
@@ -37,6 +40,13 @@ int read_table(Dados *d);
  * @return 0 em sucesso; -1 se der erro (o vetor anterior não muda).
  */
 int read_vector(Dados *d);
+
+/**
+ * Pergunta a quantidade e os valores e grava o vetor.
+ * Entrada: quantidade >= 1 e números reais com ponto decimal 
+ * @return 0 em sucesso; -1 se der erro (o vetor anterior não muda).
+ */
+int read_vector2(Dados *d);
 
 /** Se não há tabela, oferece informar agora. @return 0 se há tabela para usar, -1 se não. */
 int ensure_table(Dados *d);

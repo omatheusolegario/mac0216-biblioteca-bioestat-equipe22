@@ -53,9 +53,11 @@ static void menu_entrada(Dados *d){
     while (opcao != 0) {
         print_header("Entrada de dados");
         printf("  1) Informar a tabela 2x2\n");
-        printf("  2) Informar um vetor de numeros\n");
-        printf("  3) Carregar dados de exemplo\n");
-        printf("  4) Ver os dados carregados\n");
+        printf("  2) Informar um vetor de numeros (espaço 1)\n");
+        printf("  3) Informar um vetor de numeros (espaço 2)\n");
+        printf("  4) Informar o número de intervalos do histograma\n");
+        printf("  5) Carregar dados de exemplo\n");
+        printf("  6) Ver os dados carregados\n");
         printf("  0) Voltar\n");
         print_rule();
 
@@ -65,8 +67,10 @@ static void menu_entrada(Dados *d){
         switch (opcao) {
             case 1: if (read_table(d) == 0) printf("\n  Tabela gravada.\n"); break;
             case 2: if (read_vector(d) == 0) printf("\n  Vetor gravado (%zu valores).\n", d->n); break;
-            case 3: if (load_example(d) == 0) printf("  Dados de exemplo carregados.\n"); break;
-            case 4: print_data(d); break;
+            case 3: if (read_vector2(d) == 0) printf("Vetor gravado no espaço 2 (%zu valores).\n", d->n2); break;
+            case 4: if (read_long("Insira um número maior que 0: ", &(d->num_bins)) == 0) printf(" Número de intervalos gravado.\n"); break;
+            case 5: if (load_example(d) == 0) printf("  Dados de exemplo carregados.\n"); break;
+            case 6: print_data(d); break;
             case 0: break;
             default: printf("  Opcao invalida.\n");
         }

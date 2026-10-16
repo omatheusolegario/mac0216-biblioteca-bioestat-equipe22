@@ -270,11 +270,12 @@ be_status be_boxplot_ascii(const double *dados, const int tamanho, Quartis q, Ca
     return BE_OK;
 }
 
-be_status be_dispersao_svg(const char *nome_arquivo, const double *X, const double *Y, const int tamanho)
+be_status be_dispersao_svg(const double *X, const double *Y, const int tamanho)
 {
-    if (nome_arquivo == NULL || X == NULL || Y == NULL) return BE_ERRO_PONTEIRO_NULO;
+    if (X == NULL || Y == NULL) return BE_ERRO_PONTEIRO_NULO;
     if (tamanho<=0) return BE_ERRO_VALOR_INVALIDO;
 
+    char nome_arquivo[]="grafico_dispersao.html";
     // Cria o arquivo html com nome de nome_arquivo e atribui ele ao ponteiro f
     FILE *f = fopen(nome_arquivo, "w");
     if (f == NULL) return BE_ERRO_VALOR_INVALIDO;
@@ -326,9 +327,9 @@ be_status be_dispersao_svg(const char *nome_arquivo, const double *X, const doub
     return BE_OK;
 }
 
-be_status be_histograma_svg(const char *nome_arquivo, const double *dados, const int tamanho, const int num_bins)
+be_status be_histograma_svg(const double *dados, const int tamanho, const int num_bins)
 {
-    if (nome_arquivo == NULL || dados == NULL) return BE_ERRO_PONTEIRO_NULO;  
+    if (dados == NULL) return BE_ERRO_PONTEIRO_NULO;  
     if (tamanho <= 0 || num_bins <0) return BE_ERRO_VALOR_INVALIDO;
 
     // Acha os valores máximos e minímos do array
@@ -366,6 +367,7 @@ be_status be_histograma_svg(const char *nome_arquivo, const double *dados, const
     double largura_util = largura - (2 * margem);
     double altura_util = altura - (2 * margem);
 
+    char nome_arquivo[]="histograma.html";
     // Cria o arquivo html com nome de nome_arquivo e atribui ele ao ponteiro f
     FILE *f = fopen(nome_arquivo, "w");
     if (f == NULL) return BE_ERRO_VALOR_INVALIDO;
@@ -405,9 +407,9 @@ be_status be_histograma_svg(const char *nome_arquivo, const double *dados, const
     return BE_OK;
 }
 
-be_status be_boxplot_svg(const char *nome_arquivo, const double *dados, const int tamanho, Quartis q)
+be_status be_boxplot_svg(const double *dados, const int tamanho, Quartis q)
 {
-    if (nome_arquivo == NULL || dados == NULL) return BE_ERRO_PONTEIRO_NULO;  
+    if (dados == NULL) return BE_ERRO_PONTEIRO_NULO;  
     if (tamanho <= 0) return BE_ERRO_VALOR_INVALIDO;
 
     // Simplifica a escrita na função dessas variáveis, deixando a leitura mais limpa também
@@ -444,6 +446,7 @@ be_status be_boxplot_svg(const char *nome_arquivo, const double *dados, const in
     double largura_util = largura - (2 * margem);
     double altura_util = altura - (2 * margem);
 
+    char nome_arquivo[]="boxplot.html";
     // Cria o arquivo html com nome de nome_arquivo e atribui ele ao ponteiro f
     FILE *f = fopen(nome_arquivo, "w");
     if (f == NULL) return BE_ERRO_VALOR_INVALIDO;
