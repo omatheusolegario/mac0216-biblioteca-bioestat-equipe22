@@ -45,7 +45,7 @@ void menu_visualizacao(Dados *d){
             case 1: be_dispersao_ascii(d->vetor, d->vetor2, d->n, c); break;
             case 2: be_histograma_ascii(d->vetor, d->n, d->num_bins, c); break;
             case 3: be_boxplot_ascii(d->vetor, d->n, q, c); break;
-            case 4: be_dispersao_svg(d->vetor, d->vetor, d->n); break;
+            case 4: be_dispersao_svg(d->vetor, d->vetor2, d->n); break;
             case 5: be_histograma_svg(d->vetor, d->n, d->num_bins); break;
             case 6: be_boxplot_svg(d->vetor, d->n, q); break;
             case 0: break;
