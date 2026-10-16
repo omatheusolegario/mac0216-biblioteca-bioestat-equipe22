@@ -20,7 +20,7 @@ void menu_visualizacao(Dados *d){
     long opcao = -1;
 
     while (opcao != 0) {
-        print_header("Epidemiologia");
+        print_header("Visualizacao");
         printf("  1) Desenhar um gráfico de dispersão em ASCII\n");
         printf("  2) Desenhar um histograma em ASCII\n");
         printf("  3) Desenhar um boxplot em ASCII\n");

@@ -144,7 +144,9 @@ void print_data(const Dados *dados){
 
 void dados_free(Dados *dados){
     free(dados->vetor);
+    free(dados->vetor2);
     dados->vetor = NULL;
+    dados->vetor2 = NULL;
     dados->n = 0;
     dados->tem_tabela = 0;
 }
