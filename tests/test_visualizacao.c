@@ -27,9 +27,9 @@ void teste_nulos_e_limites()
     be_dispersao_ascii(NULL, NULL, 0, c);
     be_histograma_ascii(NULL, 0, -1, c);
     be_boxplot_ascii(NULL, 0, (Quartis){1, 2, 3}, c);
-    be_dispersao_svg(NULL, NULL, NULL, 0);
-    be_histograma_svg(NULL, NULL, 0, -1);
-    be_boxplot_svg(NULL, NULL, 0, (Quartis){1, 2, 3});
+    be_dispersao_svg(NULL, NULL, 0);
+    be_histograma_svg(NULL, 0, -1);
+    be_boxplot_svg(NULL, 0, (Quartis){1, 2, 3});
 
     printf("[OK] Teste de nulos e limites passado com sucesso!\n");
 }
@@ -103,10 +103,11 @@ void teste_arquivos_svg(){
     double X[]={1,2,3};
     double Y[]={3,2,1};
     Quartis q = {1.5,2,2.5};
-    const char *arquivo = "teste_temporario.html";
+    const char *arquivo;
 
+    arquivo="grafico_dispersao.html";
     // Testa o arquivo gerado para o gráfico de dispersão, se ele não é nulo e se ele não está vazio
-    be_dispersao_svg(arquivo, X, Y, 3);
+    be_dispersao_svg(X, Y, 3);
     FILE *f = fopen(arquivo, "r");
     assert(f != NULL);
     fseek(f, 0, SEEK_END);
@@ -114,8 +115,9 @@ void teste_arquivos_svg(){
     fclose(f);
     remove(arquivo);
 
+    arquivo="histograma.html";
     // Testa o arquivo gerado para o histrograma, se ele não é nulo e se ele não está vazio
-    be_histograma_svg(arquivo, X, 3, 2);
+    be_histograma_svg(X, 3, 2);
     f = fopen(arquivo, "r");
     assert(f != NULL);
     fseek(f, 0, SEEK_END);
@@ -123,8 +125,9 @@ void teste_arquivos_svg(){
     fclose(f);
     remove(arquivo);
 
+     arquivo="boxplot.html";
     // Testa o arquivo gerado para o boxplot, se ele não é nulo e se ele não está vazio
-    be_boxplot_svg(arquivo, X, 3, q);
+    be_boxplot_svg(X, 3, q);
     f = fopen(arquivo, "r");
     assert(f != NULL);
     fseek(f, 0, SEEK_END);

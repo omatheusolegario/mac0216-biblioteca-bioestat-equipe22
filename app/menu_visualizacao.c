@@ -56,5 +56,30 @@ void menu_visualizacao(Dados *d){
 
 void demo_visualizacao(void){
     print_header("Demonstracao: visualizacao");
-    printf("\n  [em construcao]\n");
+    
+    double X[]={1,2,3,4,5,6};
+    double Y[]={6,5,4,3,2,1};
+    double dados[]={2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 20, 35};
+    char matriz[LINHAS][COLUNAS];
+    Canvas c = cria_canvas(matriz);
+    Quartis q;
+    be_quartil_1(dados, 12, &q.q1);
+    be_quartil_2(dados, 12, &q.q2);
+    be_quartil_3(dados, 12, &q.q3);
+
+    printf("\n Dispersão ASCII \n");
+    be_dispersao_ascii(X, Y, 6, c);
+
+    printf("\n Histograma ASCII \n");
+    be_histograma_ascii(dados, 12, 2, c);
+    
+    printf("\n Boxplot ASCII \n");
+    be_boxplot_ascii(dados, 12, q, c);
+
+    printf("\n Gerando SVGs...\n");
+    be_dispersao_svg(X, Y, 6);
+    be_histograma_svg(dados, 12, 2);
+    be_boxplot_svg(dados, 12, q);
+    
+    printf("\n Arquivos SVGs gerados!\n");
 }
