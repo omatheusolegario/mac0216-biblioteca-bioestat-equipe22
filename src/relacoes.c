@@ -90,7 +90,7 @@ be_status be_regressao_linear(const double *dados_x, const double *dados_y, size
     if (status != BE_OK) return status;
 
     double corr;
-    status = calcular_corr(dados_x, dados_y, n, &s, &r);
+    status = calcular_corr(dados_x, dados_y, n, &s, &corr);
     if (status != BE_OK) return status;
 
     // É garantido que sxx != 0 por conta de calcular_corr
@@ -100,7 +100,7 @@ be_status be_regressao_linear(const double *dados_x, const double *dados_y, size
     return BE_OK;
 }
 
-be_status be_prever(rel_reta *reta, double x, double *y_previsto){
+be_status be_prever(const rel_reta *reta, double x, double *y_previsto){
     if (reta == NULL || y_previsto == NULL) return BE_ERRO_PONTEIRO_NULO;
     if (!isfinite(x) || !isfinite(reta->intercepta) || !isfinite(reta->inclinacao)) return BE_ERRO_VALOR_INVALIDO;
 

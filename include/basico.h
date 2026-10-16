@@ -89,7 +89,7 @@ be_status be_desvio_padrao(const double *dados, size_t n, double *dp);
  *                   BE_ERRO_PONTEIRO_NULO se dados ou qtd for nulo,
  *                   BE_ERRO_VALOR_INVALIDO se n == 0.
  */
-be_status *be_moda(const double *dados, size_t n, size_t *qtd, double **modas);
+be_status be_moda(const double *dados, size_t n, size_t *qtd, double **modas);
 
 /**
  * @brief Primeiro quartil.
