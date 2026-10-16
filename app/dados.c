@@ -76,7 +76,7 @@ int read_vector2(Dados *dados){
 
     // Só agora, com tudo lido, troca o vetor antigo pelo novo
     free(dados->vetor2);
-    dados->vetor = novo;
+    dados->vetor2 = novo;
     dados->n2 = (size_t)n2;
     return 0;
 }
