@@ -22,9 +22,11 @@ Não exp. / Teste-   c           d @endverbatim
  * @param t Tabela de contingência do teste
  * @param sens Ponteiro para onde o valor da sensibilidade será escrito
  * @pre a+c != 0
+ * @pre a, b, c, d >= 0
  * @return BE_OK caso não ocorra erros, 
  * BE_ERRO_PONTEIRO_NULO se t ou sens forem nulos
  * BE_ERRO_DIVISAO_POR_ZERO se a+c == 0
+ * BE_ERRO_VALOR_INVALIDO se a, b, c ou d forem negativos
  * @post sens aponta para o valor da sensibilidade a/(a+c)
  */
 be_status be_sensibilidade(const be_tabela2x2 *t, double *sens);
@@ -34,9 +36,11 @@ be_status be_sensibilidade(const be_tabela2x2 *t, double *sens);
  * @param t Tabela de contingência do teste
  * @param esp Ponteiro para onde o valor da especificidade será escrito
  * @pre b+d != 0
+ * @pre a, b, c, d >= 0
  * @return BE_OK caso não ocorra erros, 
  * BE_ERRO_PONTEIRO_NULO se t ou esp forem nulos
  * BE_ERRO_DIVISAO_POR_ZERO se b+d == 0
+ * BE_ERRO_VALOR_INVALIDO se a, b, c ou d forem negativos
  * @post esp aponta para o valor da especificidade d/(b+d)
  */
 be_status be_especificidade(const be_tabela2x2 *t, double *esp);
@@ -46,9 +50,11 @@ be_status be_especificidade(const be_tabela2x2 *t, double *esp);
  * @param t Tabela de contingência do teste
  * @param vpp Ponteiro para onde o valor preditivo positivo será escrito
  * @pre a+b != 0
+ * @pre a, b, c, d >= 0
  * @return BE_OK caso não ocorra erros, 
  * BE_ERRO_PONTEIRO_NULO se t ou esp forem nulos
  * BE_ERRO_DIVISAO_POR_ZERO se a+b == 0
+ * BE_ERRO_VALOR_INVALIDO se a, b, c ou d forem negativos
  * @post vpp aponta para o valor preditivo positivo a/(a+b)
  */
 be_status be_vpp(const be_tabela2x2 *t, double *vpp);
@@ -58,9 +64,11 @@ be_status be_vpp(const be_tabela2x2 *t, double *vpp);
  * @param t Tabela de contingência do teste
  * @param vpn Ponteiro para onde o valor preditivo negativo será escrito
  * @pre c+d != 0
+ * @pre a, b, c, d >= 0
  * @return BE_OK caso não ocorra erros, 
  * BE_ERRO_PONTEIRO_NULO se t ou esp forem nulos
  * BE_ERRO_DIVISAO_POR_ZERO se c+d == 0
+ * BE_ERRO_VALOR_INVALIDO se a, b, c ou d forem negativos
  * @post vpn aponta para o valor preditivo negativo d/(c+d)
  */
 be_status be_vpn(const be_tabela2x2 *t, double *vpn);
