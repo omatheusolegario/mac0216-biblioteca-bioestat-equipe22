@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "epidemiologia.h"
+#include "../include/epidemiologia.h"
 #include "menus.h"
 
 // Mostra a tabela 2x2 no mesmo formato da documentação
