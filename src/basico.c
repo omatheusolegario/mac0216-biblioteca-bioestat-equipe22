@@ -86,10 +86,14 @@ be_status be_quartil_3(const double *dados, size_t n, double *q3){
 be_status be_variancia(const double *dados, size_t n, double *var){
     if (dados == NULL || var == NULL) return BE_ERRO_PONTEIRO_NULO;
     if (n == 0) return BE_ERRO_VALOR_INVALIDO;
-    double m = be_media(dados, n, var); // Média é necessária
+
+    double m;
+    be_status status = be_media(dados, n, &m); // Média é necessária
+    if (status != BE_OK) return status;
+
     double soma = 0.0;
     // (Xi - Média)^2
-    for (size_t i = 0, i < n; i++)
+    for (size_t i = 0; i < n; i++)
         soma += (dados[i] - m) * (dados[i] - m);
     *var = soma / (double)n;
     return BE_OK;
@@ -98,7 +102,12 @@ be_status be_variancia(const double *dados, size_t n, double *var){
 be_status be_desvio_padrao(const double *dados, size_t n, double *dp){
     if (dados == NULL || dp == NULL) return BE_ERRO_PONTEIRO_NULO;
     if (n == 0) return BE_ERRO_VALOR_INVALIDO;
-    *dp = sqrt(be_variancia(dados, n, dp));
+
+    double var;
+    be_status status = be_variancia(dados, n, &var);
+    if (status != BE_OK) return status;
+
+    *dp = sqrt(var);
     return BE_OK;
 }
 
