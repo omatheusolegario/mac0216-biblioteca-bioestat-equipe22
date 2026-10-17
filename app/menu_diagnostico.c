@@ -46,8 +46,8 @@ void menu_diagnostico(Dados *d){
                 /* fall through */
             case 2: 
                 printf("                   Doente   Nao doente\n");
-                printf("  Exposto        %8ld   %10ld\n", d->tabela.a, d->tabela.b);
-                printf("  Nao exposto    %8ld   %10ld\n", d->tabela.c, d->tabela.d);
+                printf("  Teste positivo  %8ld   %10ld\n", d->tabela.a, d->tabela.b);
+                printf("  Teste negativo  %8ld   %10ld\n", d->tabela.c, d->tabela.d);
                 if(stop) break;
                 printf("\n");
                 /* fall through */

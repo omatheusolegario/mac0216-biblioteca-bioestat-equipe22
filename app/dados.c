@@ -7,10 +7,10 @@ int read_table(Dados *dados){
     long a, b, c, d;
 
     printf("  Informe as 4 contagens (inteiros >= 0):\n");
-    if (read_long("  a (expostos doentes)         = ", &a) != 0) return -1;
-    if (read_long("  b (expostos nao doentes)     = ", &b) != 0) return -1;
-    if (read_long("  c (nao expostos doentes)     = ", &c) != 0) return -1;
-    if (read_long("  d (nao expostos nao doentes) = ", &d) != 0) return -1;
+    if (read_long("  a (expostos/teste+ doentes)         = ", &a) != 0) return -1;
+    if (read_long("  b (expostos/teste+ nao doentes)     = ", &b) != 0) return -1;
+    if (read_long("  c (nao expostos/teste- doentes)     = ", &c) != 0) return -1;
+    if (read_long("  d (nao expostos/teste- nao doentes) = ", &d) != 0) return -1;
 
     // Pelo contrato da biblioteca, se der erro a tabela não é alterada
     be_status st = be_preencher_tabela(a, b, c, d, &dados->tabela);
