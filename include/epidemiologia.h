@@ -5,9 +5,10 @@
  *  o modelo padrão de entrada para as funções 
  *  é a "tabela2x2", que tem o seguinte formato:
  *  
- *                       | Doente  | Não doente
- *  Exposto/Teste+       |   a     |     b
- *  Não Exposto/Teste-   |   c     |     d
+ * @verbatim
+                      | Doente  | Não doente
+ Exposto/Teste+       |   a     |     b
+ Não Exposto/Teste-   |   c     |     d @endverbatim
  * 
  *  
  */
@@ -28,9 +29,10 @@ typedef struct {
 /** @brief preenche uma tabela2x2, para ser usada nas análises estatisticas
  *  
  *  @param a,b,c,d contagem das células da tabela (apenas inteiros não negativos)
- *                       | Doente  | Não doente
- *  Exposto/Teste+       |   a     |     b
- *  Não Exposto/Teste-   |   c     |     d
+ * @verbatim
+                      | Doente  | Não doente
+ Exposto/Teste+       |   a     |     b
+ Não Exposto/Teste-   |   c     |     d @endverbatim
  * 
  * @param saida é o ponteiro para a tabela, onde os parametros serão gravados
  * 
