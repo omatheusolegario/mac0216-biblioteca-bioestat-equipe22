@@ -82,11 +82,19 @@ make doc
 # O prefixo padrão é /usr/local, escolher outro é opcional
 sudo make install PREFIX=seu_caminho
 ```
+Para instalar sem privilégios administrativos, basta fazer:
+```bash
+make install PREFIX=$HOME/.local
+```
 
 ## Tirar a biblioteca no sistema
 ```bash
 # O prefixo padrão é /usr/local, escolher outro é opcional
 sudo make uninstall PREFIX=seu_caminho
+```
+Para remover sem privilégios administrativos, basta fazer:
+```bash
+make uninstall PREFIX=$HOME/.local
 ```
 
 ## Limpar arquivos compilados
