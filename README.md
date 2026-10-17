@@ -64,6 +64,8 @@ make run
 ## Executar menu interativo (CLI)
 ```bash
 ./bin/app_estatica
+# ou
+./bin/app_dinamica
 ```
 
 ## Rodar os testes unitários
@@ -71,14 +73,23 @@ make run
 make test
 ```
 
-## Limpar arquivos compilados
-```bash
-make clean
-```
-
 ## Gerar documentação
 ```bash
 make doc
+```
+## Incluir a biblioteca no sistema
+```bash
+sudo make install
+```
+
+## Tirar a biblioteca no sistema
+```bash
+sudo make uninstall
+```
+
+## Limpar arquivos compilados
+```bash
+make clean
 ```
 
 # Tratamento de Erros
