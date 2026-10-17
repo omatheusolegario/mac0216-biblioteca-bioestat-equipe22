@@ -119,7 +119,7 @@ int ensure_vector(Dados *dados){
 
 int ensure_vector2(Dados *dados){
     if (dados->n2 > 0) return 0;
-    if (!quer_informar("Nenhum segundo vetor de numeros carregado")) return -1;
+    if (!quer_informar("Nenhum segundo vetor de numeros carregado.")) return -1;
     return read_vector2(dados);
 }
 
