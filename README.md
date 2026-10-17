@@ -79,12 +79,14 @@ make doc
 ```
 ## Incluir a biblioteca no sistema
 ```bash
-sudo make install
+# O prefixo padrão é /usr/local, escolher outro é opcional
+sudo make install PREFIX=seu_caminho
 ```
 
 ## Tirar a biblioteca no sistema
 ```bash
-sudo make uninstall
+# O prefixo padrão é /usr/local, escolher outro é opcional
+sudo make uninstall PREFIX=seu_caminho
 ```
 
 ## Limpar arquivos compilados
