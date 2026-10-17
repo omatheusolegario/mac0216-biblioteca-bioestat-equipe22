@@ -7,7 +7,8 @@ static long demo = 0;
 
 static void mostrar_vetor(const Dados *d){
     printf("  Vetor (%zu valores):", d->n);
-    for (size_t i = 0; i < d->n; i++) printf(" %g", d->vetor[i]);
+    for (size_t i = 0; i < d->n && i<10; i++) printf(" %g", d->vetor[i]);
+    if (d->n > 10) printf(" ...");
     printf("\n");
 }
 

@@ -49,7 +49,7 @@ TEST_BINS = $(patsubst tests/%.c,bin/tests/%,$(TEST_SRCS))
 
 all: bin/app_estatica bin/app_dinamica
 
-.PHONY: all run test install uninstall clean
+.PHONY: all run test install uninstall clean doc
 
 # qualquer build/x.o vem de src/x.c
 # Para eu lembrar: $@ é o alvo, $< é a primeira dependência
@@ -138,7 +138,10 @@ uninstall:
 	rm -rf $(PREFIX)/include/bioestat
 
 clean:
-	rm -rf build bin lib
+	rm -rf build bin lib doc
+
+doc:
+	doxygen Doxyfile
 
 # Carrega as dependencias geradas pelo gcc (o '-' ignora se ainda nao existirem)
 -include $(LIB_OBJS:.o=.d) $(APP_OBJS:.o=.d) $(TEST_OBJS:.o=.d)

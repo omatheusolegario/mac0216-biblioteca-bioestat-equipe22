@@ -112,7 +112,7 @@ be_status be_dispersao_ascii(const double *X, const double *Y, const int tamanho
 be_status be_histograma_ascii(const double *dados, const int tamanho, const int num_bins, Canvas canvas_ascii)
 {
     if(dados == NULL || canvas_ascii.ptr_canvas == NULL) return BE_ERRO_PONTEIRO_NULO;
-    if(tamanho<=0 || num_bins < 0 || canvas_ascii.linhas <= 0 || canvas_ascii.colunas <= 0 || canvas_ascii.offset < 0) return BE_ERRO_VALOR_INVALIDO;
+    if(tamanho<=0 || num_bins <= 0 || canvas_ascii.linhas <= 0 || canvas_ascii.colunas <= 0 || canvas_ascii.offset < 0) return BE_ERRO_VALOR_INVALIDO;
     
     // Permite referenciar a matriz 2d de forma natural
     char (*canvas)[canvas_ascii.colunas] = (char (*)[canvas_ascii.colunas])canvas_ascii.ptr_canvas;
@@ -324,13 +324,14 @@ be_status be_dispersao_svg(const double *X, const double *Y, const int tamanho)
     fprintf(f, "</svg> \n</body>\n</html>\n");
     fclose(f);
     
+    printf("SVG disponível em grafico_dispersao.html, na raiz do projeto.\n");
     return BE_OK;
 }
 
 be_status be_histograma_svg(const double *dados, const int tamanho, const int num_bins)
 {
     if (dados == NULL) return BE_ERRO_PONTEIRO_NULO;  
-    if (tamanho <= 0 || num_bins <0) return BE_ERRO_VALOR_INVALIDO;
+    if (tamanho <= 0 || num_bins <=0) return BE_ERRO_VALOR_INVALIDO;
 
     // Acha os valores máximos e minímos do array
     double vmax = achaMax(dados, tamanho);
@@ -404,6 +405,7 @@ be_status be_histograma_svg(const double *dados, const int tamanho, const int nu
     fprintf(f, "</svg> \n</body>\n</html>\n");
     fclose(f);
 
+    printf("SVG disponível em histograma.html, na raiz do projeto.\n");
     return BE_OK;
 }
 
@@ -537,5 +539,6 @@ be_status be_boxplot_svg(const double *dados, const int tamanho, Quartis q)
     fprintf(f, "</svg> \n</body>\n</html>\n");
     fclose(f);
 
+    printf("SVG disponível em boxplot.html, na raiz do projeto.\n");
     return BE_OK;
 }

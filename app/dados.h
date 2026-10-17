@@ -54,6 +54,12 @@ int ensure_table(Dados *d);
 /** Se não há vetor, oferece informar agora. @return 0 se há vetor para usar, -1 se não. */
 int ensure_vector(Dados *d);
 
+/** Se não há vetor 2, oferece informar agora. @return 0 se há vetor para usar, -1 se não. */
+int ensure_vector2(Dados *d);
+
+/** Se não há número de intervalos, oferece informar agora. @return 0 se há vetor para usar, -1 se não. */
+int ensure_num_bins(Dados *d);
+
 /** Carrega uma tabela e um vetor de exemplo. @return 0, ou -1 se faltar memória. */
 int load_example(Dados *d);
 

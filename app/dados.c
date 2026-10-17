@@ -27,6 +27,7 @@ int read_vector(Dados *dados){
     long n;
 
     if (read_long("  Quantos valores? (>= 1) ", &n) != 0) return -1;
+    if (n<= 0) return -1;
 
     double *novo = malloc(n * sizeof *novo);
     if (novo == NULL) {
@@ -56,6 +57,7 @@ int read_vector2(Dados *dados){
     long n2;
 
     if (read_long("  Quantos valores? (>= 1) ", &n2) != 0) return -1;
+    if (n2<= 0) return -1;
 
     double *novo = malloc(n2 * sizeof *novo);
     if (novo == NULL) {
@@ -78,6 +80,17 @@ int read_vector2(Dados *dados){
     free(dados->vetor2);
     dados->vetor2 = novo;
     dados->n2 = (size_t)n2;
+    return 0;
+}
+
+int read_num_bins(Dados *dados){
+    long num_bins;
+
+    if (read_long("  Quantos intervalos? ", &num_bins) != 0) return -1;
+
+    if (num_bins <= 0) return -1;
+
+    dados->num_bins = (size_t)num_bins;
     return 0;
 }
 
@@ -104,9 +117,23 @@ int ensure_vector(Dados *dados){
     return read_vector(dados);
 }
 
+int ensure_vector2(Dados *dados){
+    if (dados->n2 > 0) return 0;
+    if (!quer_informar("Nenhum segundo vetor de numeros carregado.")) return -1;
+    return read_vector2(dados);
+}
+
+int ensure_num_bins(Dados *dados){
+    if (dados->num_bins > 0) return 0;
+    if (!quer_informar("Nenhum número de intervalos carregado.")) return -1;
+    return read_num_bins(dados);
+}
+
 int load_example(Dados *dados){
     double exemplo[] = {2, 4, 4, 5, 7, 9, 10, 12, 15, 20, 35};
+    double exemplo2[]= {35,20,15,12,10,9,7,5,4,4,2};
     size_t n = sizeof exemplo / sizeof exemplo[0];
+    size_t n2 = sizeof exemplo2 / sizeof exemplo2[0];
 
     double *novo = malloc(sizeof exemplo);
     if (novo == NULL) {
@@ -119,8 +146,21 @@ int load_example(Dados *dados){
     dados->vetor = novo;
     dados->n = n;
 
+    double *novo2 = malloc(sizeof exemplo2);
+    if (novo2 == NULL) {
+        printf("  Faltou memoria.\n");
+        return -1;
+    }
+    for (size_t i = 0; i < n2; i++) novo2[i] = exemplo2[i];
+
+    free(dados->vetor2);
+    dados->vetor2 = novo2;
+    dados->n2 = n2;
+
     be_preencher_tabela(20, 80, 10, 90, &dados->tabela);
     dados->tem_tabela = 1;
+
+    dados->num_bins=4;
     return 0;
 }
 
@@ -133,12 +173,26 @@ void print_data(const Dados *dados){
     }
 
     if (dados->n > 0) {
-        printf("  Vetor (%zu valores):", dados->n);
+        printf("  Vetor 1 (%zu valores):", dados->n);
         for (size_t i = 0; i < dados->n && i < 10; i++) printf(" %g", dados->vetor[i]);
         if (dados->n > 10) printf(" ...");
         printf("\n");
     } else {
         printf("  Vetor: nenhum\n");
+    }
+     if (dados->n2 > 0) {
+        printf("  Vetor 2 (%zu valores):", dados->n2);
+        for (size_t i = 0; i < dados->n2 && i < 10; i++) printf(" %g", dados->vetor2[i]);
+        if (dados->n2 > 10) printf(" ...");
+        printf("\n");
+    } else {
+        printf("  Vetor 2: nenhum\n");
+    }
+
+    if (dados->num_bins > 0){
+        printf("  Número de intervalos: %zu\n", dados->num_bins);
+    }else{
+        printf(" Número de intervalos: nenhum\n");
     }
 }
 
@@ -148,5 +202,7 @@ void dados_free(Dados *dados){
     dados->vetor = NULL;
     dados->vetor2 = NULL;
     dados->n = 0;
+    dados->n2=0;
+    dados->num_bins=0;
     dados->tem_tabela = 0;
 }
