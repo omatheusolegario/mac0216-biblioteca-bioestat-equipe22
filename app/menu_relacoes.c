@@ -4,16 +4,6 @@
 
 static long demo = 0;
 
-static int ensure_vector2(Dados *d){
-    if (d->n2 > 0) return 0;
-
-    long resposta = 0;
-    printf("  Nenhum segundo vetor de números carregado. Informar agora? (1 = sim, 0 = voltar)\n");
-    if (read_long("> ", &resposta) != 0 || resposta != 1) return -1;
-    printf("\n");
-    return read_vector2(d);
-}
-
 static int ensure_vectors(Dados *d){
     if (ensure_vector(d) != 0) return -1;
     if (ensure_vector2(d) != 0) return -1;
@@ -36,11 +26,13 @@ static int vetores_compativeis(const Dados *d){
 
 static void mostrar_vetores(const Dados *d){
     printf("  Vetor X (%zu valores):", d->n);
-    for (size_t i = 0; i < d->n; i++) printf(" %g", d->vetor[i]);
+    for (size_t i = 0; i < d->n && i<10; i++) printf(" %g", d->vetor[i]);
+    if (d->n > 10) printf(" ...");
     printf("\n");
 
     printf("  Vetor Y (%zu valores):", d->n2);
-    for (size_t i = 0; i < d->n2; i++) printf(" %g", d->vetor2[i]);
+    for (size_t i = 0; i < d->n2 && i <10; i++) printf(" %g", d->vetor2[i]);
+    if (d->n > 10) printf(" ...");
     printf("\n");
 }
 

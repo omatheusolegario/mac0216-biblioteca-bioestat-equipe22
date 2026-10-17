@@ -53,7 +53,7 @@ be_status be_dispersao_ascii(const double *X, const double *Y, const int tamanho
  * 
  * @return be_status BE_OK caso não ocorra erros,
  *                   BE_ERRO_PONTEIRO_NULO se dados, ptr_canvas ou frequencia_absoluta forem nulos,
- *                   BE_ERRO_VALOR_INVALIDO se tamanho, linhas ou colunas forem <=0 ou também offset e num_bins < 0.
+ *                   BE_ERRO_VALOR_INVALIDO se tamanho, num_bins, linhas ou colunas forem <=0 ou também offset < 0.
  */
 be_status be_histograma_ascii(const double *dados, const int tamanho, const int num_bins, Canvas canvas_ascii);
 
@@ -96,7 +96,7 @@ be_status be_dispersao_svg(const double *X, const double *Y, const int tamanho);
  * 
  * @return be_status BE_OK caso não ocorra erros,
  *                   BE_ERRO_PONTEIRO_NULO se dados ou frequencia_absoluta forem nulos,
- *                   BE_ERRO_VALOR_INVALIDO se tamanho <= 0 ou num_bins < 0 ou se falhar na criação do arquivo html.
+ *                   BE_ERRO_VALOR_INVALIDO se tamanho <= 0 ou num_bins <= 0 ou se falhar na criação do arquivo html.
  * 
  */
 be_status be_histograma_svg(const double *dados, const int tamanho, const int num_bins);
