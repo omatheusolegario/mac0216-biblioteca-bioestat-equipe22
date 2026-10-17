@@ -101,7 +101,7 @@ static void teste_casos_limite(void){
     double dois[] = {10, 20};
     double esperados_dois[] = {15.0, 15.0, 12.5, 15.0, 17.5, 25.0, 5.0};
     confere_todas("n = 2", dois, 2, esperados_dois);
-    confere_moda("n = 2 sem repeticao", dois, 2, dois, 2)
+    confere_moda("n = 2 sem repeticao", dois, 2, dois, 2);
 
     // moda com empate e moda sem repetição em dados desordenados
     double empate[] = {1, 1, 2, 2, 3};
