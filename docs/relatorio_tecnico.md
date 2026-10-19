@@ -57,7 +57,7 @@ As dependências entre os módulos são poucas e vão em um único sentido:
 
 | Módulo | Responsabilidade | Funções públicas | Responsável |
 |---|---|---|---|
-| `bioestat_erro` | Convenção de erros comum a toda a biblioteca (`be_status`) | 1 | Thiago (versão inicial) e Gustavo (`BE_ERRO_MEMORIA`) |
+| `bioestat_erro` | Convenção de erros comum a toda a biblioteca (`be_status`) | 1 | Thiago com apoio de todos |
 | `basico` | Estatística descritiva de um vetor: média, mediana, quartis, variância, desvio padrão e moda | 8 | Gustavo |
 | `relacoes` | Relação entre duas variáveis: covariância, correlação de Pearson, regressão linear e previsão | 4 | Gustavo |
 | `diagnostico` | Qualidade de um teste diagnóstico: sensibilidade, especificidade, VPP e VPN | 4 | Matheus Cabral |
