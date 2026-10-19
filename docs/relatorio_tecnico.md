@@ -28,28 +28,6 @@ Os dados de entrada são de dois tipos:
 
 A libbioestat tem 5 módulos de funcionalidade e um módulo de apoio, o de erros. A aplicação cliente fica separada, em `app/`, e usa a biblioteca apenas pelos arquivos `.h` de `include/`.
 
-```text
- +------------------------------------------------------------------+
- |  app/   aplicação cliente (CLI)                                  |
- |  main.c   dados.c/.h   menus.h   menu_*.c                        |
- +----------------------------+-------------------------------------+
-                              |  #include "include/*.h"
-                              |  (somente a API pública)
- +----------------------------v-------------------------------------+
- |  libbioestat  (include/ + src/)                                  |
- |                                                                  |
- |  epidemiologia   diagnostico   basico   relacoes   visualizacao  |
- |        ^              |           ^         |                    |
- |        +--------------+           +---------+                    |
- |      (be_tabela2x2)             (be_media)                       |
- |                                                                  |
- |  bioestat_erro  (be_status, be_status_mensagem), usado por todos |
- +------------------------------------------------------------------+
-        |                                   |
-   lib/libbioestat.a                  lib/libbioestat.so
-   (ligação estática)                 (ligação dinâmica)
-```
-
 As dependências entre os módulos são poucas e vão em um único sentido:
 
 - `diagnostico` usa a struct `be_tabela2x2`, que é definida em `epidemiologia.h`.
@@ -74,18 +52,6 @@ As dependências entre os módulos são poucas e vão em um único sentido:
 ├── README.md
 └── demonstacao.mp4
 ```
-
-`build/`, `lib/`, `bin/` e `doc/` são artefatos de compilação e estão no `.gitignore`.
-
-## Tamanho do projeto
-
-| Parte | Arquivos | Linhas (com comentários) |
-|---|---|---|
-| `include/` (API pública) | 6 `.h` | 577 |
-| `src/` (implementação) | 6 `.c` | 1.219 |
-| `app/` (aplicação cliente) | 7 `.c` e 2 `.h` | 1.192 |
-| `tests/` | 5 `test_*.c` e `teste.h` | 779 |
-| **Total** | | **3.767** |
 
 # Organização e responsabilidade dos módulos
 
